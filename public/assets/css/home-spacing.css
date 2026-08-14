@@ -1,0 +1,22 @@
+:root{--pick1-home-section-gap:10px}
+.pick1-store>main>.home-carousel{margin-top:var(--pick1-home-section-gap)!important}
+.pick1-store>main>section+section{margin-top:var(--pick1-home-section-gap)}
+.pick1-store>main>.home-carousel{margin-bottom:0!important}
+.pick1-store>main>.numae-intro{padding-top:20px;padding-bottom:16px}
+.pick1-store>main>.numae-products{padding-bottom:16px}
+.pick1-store>main>.numae-products .numae-shop{margin-top:20px}
+.pick1-store>main>.pick1-faq{padding-top:20px;padding-bottom:16px}
+.pick1-store>main>.pick1-benefit-marquee,
+.pick1-store>main>.numae-intro,
+.pick1-store>main>.numae-products,
+.pick1-store>main>.pick1-faq,
+.pick1-store>main>.numae-banner,
+.pick1-store>main>.video-stories{margin-bottom:0}
+@media(max-width:600px){
+  :root{--pick1-home-section-gap:6px}
+  .pick1-store>main>.home-carousel{margin-top:var(--pick1-home-section-gap)!important}
+  .pick1-store>main>.numae-intro{padding-top:14px;padding-bottom:12px}
+  .pick1-store>main>.numae-products{padding-bottom:12px}
+  .pick1-store>main>.numae-products .numae-shop{margin-top:14px}
+  .pick1-store>main>.pick1-faq{padding-top:14px;padding-bottom:12px}
+}

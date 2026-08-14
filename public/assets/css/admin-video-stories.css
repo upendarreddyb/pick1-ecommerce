@@ -1,0 +1,10 @@
+.video-story-admin-thumb{display:block;width:78px;height:100px;object-fit:cover;border-radius:8px;background:#151515}
+.table-subtitle{display:block;margin-top:5px;color:#777;max-width:260px}
+.admin-stars{color:#d59d1a;letter-spacing:2px;white-space:nowrap}
+.empty-state{text-align:center;padding:45px!important;color:#777}
+.current-video{padding:18px;border:1px solid #e5e3dc;border-radius:12px;background:#faf9f6}
+.current-video p{margin:0 0 12px;font-weight:600}
+.current-video video{display:block;width:min(280px,100%);max-height:430px;background:#111;border-radius:9px}
+.video-story-form input[type=file]{padding:13px;background:#fff}
+.external-video-badge{display:grid;place-items:center;width:78px;height:100px;border-radius:8px;background:#173f2e;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+@media(max-width:720px){.table-card{overflow-x:auto}.video-story-admin-thumb{width:58px;height:78px}}

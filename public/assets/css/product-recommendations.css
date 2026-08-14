@@ -1,0 +1,7 @@
+.product-recommendations{padding:72px 5vw 90px;background:#f7f6f2;border-top:1px solid rgba(23,32,25,.14)}
+.product-recommendations>header{max-width:1250px;margin:0 auto 34px;text-align:center}
+.product-recommendations h2{margin:8px 0 0;font:500 clamp(36px,4vw,54px)/1.1 'Playfair Display',serif}
+.product-recommendations .product-grid{max-width:1250px;margin:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.product-recommendations .product-media{height:340px;background:#fff}
+@media(max-width:900px){.product-recommendations .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.product-recommendations{padding:52px 14px 65px}.product-recommendations .product-grid{gap:10px}.product-recommendations .product-media{height:245px}}

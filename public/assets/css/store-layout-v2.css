@@ -1,0 +1,84 @@
+/* Header, centered homepage content and About page */
+html { scroll-padding-top: 92px; }
+.site-header.pick-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  grid-template-columns: 180px 1fr auto;
+  background: rgba(251, 250, 246, .96);
+  box-shadow: 0 1px 0 rgba(23, 32, 25, .12);
+  backdrop-filter: blur(14px);
+}
+.pick-nav nav a:first-child{border-bottom:0;padding-bottom:0}
+.discount-ticker{position:relative;z-index:31;overflow:hidden;background:#155b3d;color:#fff;height:36px;display:flex;align-items:center}
+.discount-ticker>div{display:flex;width:max-content;white-space:nowrap;animation:pick1-ticker var(--ticker-speed,22s) linear infinite}
+.discount-ticker span{padding:0 54px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+@keyframes pick1-ticker{to{transform:translateX(-25%)}}
+.footer-socials svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.footer-socials svg .fill{fill:currentColor;stroke:none}
+@media(prefers-reduced-motion:reduce){.discount-ticker>div{animation:none}}
+.pick-nav nav { left: 50%; transform: translateX(-50%); }
+.pick-nav .header-actions { display: flex; align-items: center; gap: 12px; }
+.header-search-form {
+  display: flex;
+  align-items: center;
+  width: 190px;
+  height: 42px;
+  border: 1px solid rgba(23, 32, 25, .24);
+  border-radius: 24px;
+  background: #fff;
+  overflow: hidden;
+}
+.header-search-form input {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 4px 0 16px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+}
+.header-search-form button { flex: 0 0 40px; width: 40px; height: 40px; border: 0; background: transparent; }
+.header-search-form .search-icon svg { width: 22px; height: 22px; }
+.home-carousel { width: 75% !important; max-width: 1320px; margin: 24px auto 0 !important; }
+.numae-products { width: 75%; max-width: 1320px; margin-inline: auto; padding-inline: 0; }
+.numae-products .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pick1-faq { background: #fff !important; color: #000 !important; }
+.pick1-faq .pick-eyebrow,
+.pick1-faq details > div,
+.pick1-faq .pick1-promise strong { color: #000 !important; }
+.about-pick1 { display: grid; grid-template-columns: 1fr 1fr; min-height: 680px; background: #fff; }
+.about-pick1-copy { padding: 9vw 8vw; align-self: center; }
+.about-pick1 h1 { margin: 20px 0 28px; font: 500 clamp(50px, 6vw, 84px)/1 'Playfair Display', serif; }
+.about-pick1 h1 em { color: #155b3d; font-weight: 500; }
+.about-pick1-copy > p:not(.eyebrow) { max-width: 650px; color: #444; font-size: 16px; line-height: 1.8; }
+.about-pick1-image { min-height: 620px; }
+.about-image-pending { display: grid; place-items: center; background: linear-gradient(145deg, #dcebd8, #f0e6c8); color: #155b3d; text-align: center; text-transform: uppercase; letter-spacing: .14em; }
+@media (max-width: 1050px) {
+  .header-search-form { width: 145px; }
+  .pick-nav nav { gap: 20px; }
+  .home-carousel, .numae-products { width: 88% !important; }
+}
+@media (max-width: 900px) {
+  .site-header.pick-nav { grid-template-columns: 130px auto 1fr auto; }
+  .pick-nav .menu-toggle { grid-column: 2; }
+  .pick-nav nav { left: 0; transform: none; top: 82px; }
+  .pick-nav .header-actions { grid-column: 4; }
+  .header-search-form { width: 44px; border: 0; background: transparent; }
+  .header-search-form input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .home-carousel, .numae-products { width: 100% !important; }
+  .numae-products { padding-inline: 18px; }
+  .numae-products .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-pick1 { grid-template-columns: 1fr; }
+  .about-pick1-image { min-height: 430px; }
+}
+@media (max-width: 560px) {
+  .site-header.pick-nav { grid-template-columns: 90px auto 1fr auto; }
+  .pick-nav nav { top: 68px; }
+  .home-carousel { margin-top: 0 !important; }
+  .numae-products { padding-inline: 12px; }
+  .about-pick1-copy { padding: 75px 24px; }
+  .about-pick1 h1 { font-size: 50px; }
+  .about-pick1-image { min-height: 320px; }
+}
