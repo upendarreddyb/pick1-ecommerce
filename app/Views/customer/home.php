@@ -134,8 +134,6 @@ $displaySlides = $slides ?: [
   </div>
 </section>
 
-<section class="numae-banner"><div><p>Freshness They’ve Experienced.</p><h2>made from nature,<br>refined by pick1</h2><a href="<?= base_url('products') ?>">Shop Now</a></div></section>
-
 <?php if (! empty($videoStories)): ?>
 <section class="video-stories" aria-labelledby="video-stories-title">
   <header>

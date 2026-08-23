@@ -30,19 +30,24 @@ class RazorpayGateway implements PaymentGatewayInterface
             throw new RuntimeException('Razorpay test keys are not configured. Add a valid Key ID and Key Secret to the .env file.');
         }
 
+        $amountInPaise = (int) round($amount * 100);
+        if ($amountInPaise < 100) {
+            throw new RuntimeException('The minimum Razorpay payment amount is ₹1.00.', 400);
+        }
+
         $curl = curl_init('https://api.razorpay.com/v1/orders');
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_USERPWD        => $this->key . ':' . $this->secret,
             CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => http_build_query([
-                'amount'   => (int) round($amount * 100),
+            CURLOPT_POSTFIELDS     => json_encode([
+                'amount'   => $amountInPaise,
                 'currency' => 'INR',
                 'receipt'  => $receipt,
-            ]),
+            ], JSON_THROW_ON_ERROR),
             CURLOPT_CONNECTTIMEOUT => 10,
             CURLOPT_TIMEOUT        => 20,
-            CURLOPT_HTTPHEADER     => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
         ]);
 
         $raw = curl_exec($curl);
@@ -51,7 +56,7 @@ class RazorpayGateway implements PaymentGatewayInterface
         curl_close($curl);
 
         if ($raw === false) {
-            throw new RuntimeException('Could not connect to Razorpay: ' . $curlError);
+            throw new RuntimeException('Could not connect to Razorpay: ' . $curlError, 500);
         }
 
         $result = json_decode($raw, true);
@@ -60,24 +65,29 @@ class RazorpayGateway implements PaymentGatewayInterface
             if ($httpCode === 401) {
                 $message = 'Razorpay authentication failed. Verify the Key ID and Key Secret are from the same test-mode account.';
             }
-            throw new RuntimeException($message);
+            throw new RuntimeException($message, $httpCode === 401 ? 401 : 500);
         }
 
         return $result;
     }
 
-    public function verify(array $payload): bool
+    public function verify(array $payload, string $expectedOrderId = ''): bool
     {
         if (! $this->isConfigured()
+            || $expectedOrderId === ''
             || empty($payload['razorpay_order_id'])
             || empty($payload['razorpay_payment_id'])
             || empty($payload['razorpay_signature'])) {
             return false;
         }
 
+        if (! hash_equals($expectedOrderId, (string) $payload['razorpay_order_id'])) {
+            return false;
+        }
+
         $expected = hash_hmac(
             'sha256',
-            $payload['razorpay_order_id'] . '|' . $payload['razorpay_payment_id'],
+            $expectedOrderId . '|' . $payload['razorpay_payment_id'],
             $this->secret,
         );
 

@@ -27,6 +27,8 @@ $routes->post('cart/remove', 'Customer\\Cart::remove');
 $routes->group('', ['filter' => 'customerAuth'], static function ($routes) {
     $routes->match(['GET', 'POST'], 'checkout', 'Customer\\Checkout::index');
     $routes->post('checkout/payment/verify', 'Customer\\Checkout::verifyPayment');
+    $routes->post('api/create-order', 'Customer\\Checkout::createOrder');
+    $routes->post('api/verify-payment', 'Customer\\Checkout::verifyPayment');
     $routes->get('orders', 'Customer\\Orders::index');
     $routes->get('orders/(:num)', 'Customer\\Orders::show/$1');
     $routes->post('products/(:num)/reviews', 'Customer\\Reviews::create/$1');

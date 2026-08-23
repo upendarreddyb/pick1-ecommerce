@@ -8,30 +8,112 @@
     <div class="payment-mini-items"><?php foreach($items as $item): ?><div><span><?= esc($item['name']) ?> × <?= $item['quantity'] ?></span><strong>₹<?= number_format(($item['sale_price']?:$item['price'])*$item['quantity'],2) ?></strong></div><?php endforeach ?></div>
     <div class="payment-due"><span>Total payable</span><strong>₹<?= number_format($order['total_amount'],2) ?></strong></div>
     <?php if($paymentMethod==='gpay'): ?>
-      <button id="pay" class="gateway-button gpay-button"><span class="gpay-g">G</span> Pay with Google Pay</button>
+      <button id="pay" type="button" class="gateway-button gpay-button"><span class="gpay-g">G</span> Pay with Google Pay</button>
       <p>Google Pay opens through Razorpay’s secure UPI checkout. Availability depends on your device and enabled Razorpay payment methods.</p>
     <?php else: ?>
-      <button id="pay" class="gateway-button razorpay-button"><span>R</span> Pay securely with Razorpay</button>
+      <button id="pay" type="button" class="gateway-button razorpay-button"><span>R</span> Pay securely with Razorpay</button>
       <p>Choose card, UPI, netbanking, wallet, or another enabled method inside Razorpay.</p>
     <?php endif ?>
+    <p id="payment-message" role="status" aria-live="polite"></p>
     <a class="change-payment" href="<?= base_url('checkout') ?>">← Change payment method</a>
   </div>
-  <form id="verify" method="post" action="<?= base_url('checkout/payment/verify') ?>"><?= csrf_field() ?><input type="hidden" name="order_id" value="<?= $order['id'] ?>"><input type="hidden" name="razorpay_order_id"><input type="hidden" name="razorpay_payment_id"><input type="hidden" name="razorpay_signature"></form>
 </section>
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script>
-document.querySelector('#pay').addEventListener('click', () => {
-  const options = {
-    key: '<?= esc($key) ?>', amount: <?= (int)$gateway['amount'] ?>, currency: 'INR',
-    name: 'Pick1', description: 'Order #<?= $order['id'] ?>', order_id: '<?= esc($gateway['id']) ?>',
-    handler: response => { Object.keys(response).forEach(key => { const input=document.querySelector(`[name="${key}"]`); if(input) input.value=response[key]; }); document.querySelector('#verify').submit(); },
-    theme: { color: '#111111' }, retry: { enabled: true }
+(() => {
+  const payButton = document.querySelector('#pay');
+  const message = document.querySelector('#payment-message');
+  const internalOrderId = <?= json_encode((int) $order['id']) ?>;
+  let csrfName = <?= json_encode(csrf_token()) ?>;
+  let csrfHash = <?= json_encode(csrf_hash()) ?>;
+
+  const showMessage = (text, isError = false) => {
+    message.textContent = text;
+    message.style.color = isError ? '#a32020' : '';
   };
-  <?php if($paymentMethod==='gpay'): ?>
-  options.config = { display: { blocks: { gpay: { name: 'Pay with Google Pay', instruments: [{ method: 'upi', flows: ['intent'], apps: ['google_pay'] }] } }, sequence: ['block.gpay', 'upi'], preferences: { show_default_blocks: true } } };
-  <?php endif ?>
-  new Razorpay(options).open();
-});
+
+  const post = async (url, fields) => {
+    const body = new URLSearchParams({ ...fields, [csrfName]: csrfHash });
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 'Accept': 'application/json' },
+      body,
+      credentials: 'same-origin'
+    });
+    const data = await response.json().catch(() => ({ message: 'The server returned an invalid response.' }));
+    if (data.csrf_name && data.csrf_hash) {
+      csrfName = data.csrf_name;
+      csrfHash = data.csrf_hash;
+    }
+    if (!response.ok || data.success === false) {
+      throw new Error(data.message || 'Payment request failed.');
+    }
+    return data;
+  };
+
+  payButton.addEventListener('click', async () => {
+    payButton.disabled = true;
+    showMessage('Preparing secure payment…');
+
+    try {
+      if (typeof Razorpay === 'undefined') {
+        throw new Error('Razorpay Checkout could not load. Check your connection and try again.');
+      }
+
+      const gateway = await post(<?= json_encode(base_url('api/create-order')) ?>, {
+        order_id: internalOrderId
+      });
+
+      const options = {
+        key: <?= json_encode((string) $key) ?>,
+        amount: gateway.amount,
+        currency: gateway.currency,
+        name: 'Pick1',
+        description: 'Order #' + internalOrderId,
+        order_id: gateway.order_id,
+        prefill: <?= json_encode($prefill, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
+        handler: async response => {
+          showMessage('Verifying payment…');
+          try {
+            const result = await post(<?= json_encode(base_url('api/verify-payment')) ?>, {
+              order_id: internalOrderId,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            });
+            window.location.assign(result.redirect);
+          } catch (error) {
+            payButton.disabled = false;
+            showMessage(error.message, true);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            payButton.disabled = false;
+            showMessage('Payment cancelled. You can try again.', true);
+          }
+        },
+        theme: { color: '#155d45' },
+        retry: { enabled: true }
+      };
+
+      <?php if($paymentMethod==='gpay'): ?>
+      options.config = { display: { blocks: { gpay: { name: 'Pay with Google Pay', instruments: [{ method: 'upi', flows: ['intent'], apps: ['google_pay'] }] } }, sequence: ['block.gpay', 'upi'], preferences: { show_default_blocks: true } } };
+      <?php endif ?>
+
+      const checkout = new Razorpay(options);
+      checkout.on('payment.failed', response => {
+        payButton.disabled = false;
+        showMessage(response.error?.description || 'Payment failed. Please try again.', true);
+      });
+      checkout.open();
+      showMessage('');
+    } catch (error) {
+      payButton.disabled = false;
+      showMessage(error.message, true);
+    }
+  });
+})();
 </script>
 <?= $this->endSection() ?>

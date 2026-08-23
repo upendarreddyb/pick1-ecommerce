@@ -69,17 +69,6 @@ class Checkout extends BaseController
                 ]);
             }
 
-            $gatewayOrder = (new RazorpayGateway())->createOrder($cart->total(), 'order_' . $orderId);
-            $orders->update($orderId, ['gateway_order_id' => $gatewayOrder['id']]);
-            (new PaymentModel())->insert([
-                'order_id'    => $orderId,
-                'gateway'     => 'razorpay',
-                'amount'      => $cart->total(),
-                'status'      => 'created',
-                'raw_response'=> json_encode($gatewayOrder),
-                'created_at'  => date('Y-m-d H:i:s'),
-            ]);
-
             if ($database->transStatus() === false) {
                 throw new \RuntimeException('The order records could not be created.');
             }
@@ -93,29 +82,217 @@ class Checkout extends BaseController
         return view('customer/checkout/pay', [
             'title'   => 'Complete payment',
             'order'   => $orders->find($orderId),
-            'gateway' => $gatewayOrder,
             'key'     => env('RAZORPAY_KEY_ID'),
             'items'   => $cart->rows(),
             'paymentMethod' => $this->request->getPost('payment_method'),
+            'prefill' => [
+                'name'    => (string) $this->request->getPost('full_name'),
+                'email'   => (string) session('customer_email'),
+                'contact' => (string) $this->request->getPost('phone'),
+            ],
+        ]);
+    }
+
+    public function createOrder()
+    {
+        $input = $this->requestPayload();
+        $orderId = (int) ($input['order_id'] ?? 0);
+        $orders = new OrderModel();
+        $order = $orders->where([
+            'id'      => $orderId,
+            'user_id' => session('customer_id'),
+        ])->first();
+
+        if (! $order) {
+            return $this->response->setStatusCode(404)->setJSON([
+                'success' => false,
+                'message' => 'Order not found.',
+            ]);
+        }
+
+        if (($order['payment_status'] ?? '') === 'paid') {
+            return $this->response->setStatusCode(409)->setJSON([
+                'success' => false,
+                'message' => 'This order has already been paid.',
+            ]);
+        }
+
+        $amountInPaise = (int) round(((float) $order['total_amount']) * 100);
+        if ($amountInPaise < 100) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'success' => false,
+                'message' => 'The minimum payment amount is ₹1.00.',
+            ]);
+        }
+
+        try {
+            if (! empty($order['gateway_order_id'])) {
+                $gatewayOrder = [
+                    'id'       => $order['gateway_order_id'],
+                    'amount'   => $amountInPaise,
+                    'currency' => 'INR',
+                ];
+
+                $payments = new PaymentModel();
+                if (! $payments->where('order_id', $order['id'])->first()) {
+                    $payments->insert([
+                        'order_id'    => $order['id'],
+                        'gateway'     => 'razorpay',
+                        'amount'      => $order['total_amount'],
+                        'status'      => 'created',
+                        'created_at'  => date('Y-m-d H:i:s'),
+                    ]);
+                }
+            } else {
+                $gatewayOrder = (new RazorpayGateway())->createOrder(
+                    (float) $order['total_amount'],
+                    'order_' . $order['id'],
+                );
+
+                $orders->update($order['id'], ['gateway_order_id' => $gatewayOrder['id']]);
+
+                $payments = new PaymentModel();
+                $existingPayment = $payments->where('order_id', $order['id'])->first();
+                $paymentData = [
+                    'gateway'      => 'razorpay',
+                    'amount'       => $order['total_amount'],
+                    'status'       => 'created',
+                    'raw_response' => json_encode($gatewayOrder),
+                ];
+
+                if ($existingPayment) {
+                    $payments->update($existingPayment['id'], $paymentData);
+                } else {
+                    $payments->insert($paymentData + [
+                        'order_id'   => $order['id'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
+            }
+        } catch (\RuntimeException $exception) {
+            log_message('error', 'Razorpay order creation failed: {message}', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            $status = $exception->getCode() === 401 ? 401 : 500;
+            return $this->response->setStatusCode($status)->setJSON([
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ]);
+        } catch (\Throwable $exception) {
+            log_message('error', 'Checkout API failed: {message}', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(500)->setJSON([
+                'success' => false,
+                'message' => 'The payment order could not be created. Please try again.',
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'success'   => true,
+            'order_id'  => $gatewayOrder['id'],
+            'amount'    => (int) $gatewayOrder['amount'],
+            'currency'  => $gatewayOrder['currency'] ?? 'INR',
+            'csrf_name' => csrf_token(),
+            'csrf_hash' => csrf_hash(),
         ]);
     }
 
     public function verifyPayment()
     {
-        $payload = $this->request->getPost();
-        $order = (new OrderModel())->where(['id' => $payload['order_id'] ?? 0, 'user_id' => session('customer_id')])->first();
-        if (! $order || ! (new RazorpayGateway())->verify($payload)) {
-            return redirect()->to('/orders')->with('error', 'Payment verification failed. You can retry safely.');
+        $payload = $this->requestPayload();
+        foreach (['order_id', 'razorpay_order_id', 'razorpay_payment_id', 'razorpay_signature'] as $field) {
+            if (empty($payload[$field])) {
+                return $this->response->setStatusCode(400)->setJSON([
+                    'success' => false,
+                    'message' => 'Missing payment verification fields.',
+                ]);
+            }
         }
 
-        (new OrderModel())->update($order['id'], ['payment_status' => 'paid', 'status' => 'processing']);
-        (new PaymentModel())->where('order_id', $order['id'])->set([
-            'transaction_id' => $payload['razorpay_payment_id'],
-            'status'         => 'paid',
-            'raw_response'   => json_encode($payload),
-        ])->update();
+        $orders = new OrderModel();
+        $order = $orders->where([
+            'id'      => (int) $payload['order_id'],
+            'user_id' => session('customer_id'),
+        ])->first();
+
+        if (! $order || empty($order['gateway_order_id'])) {
+            return $this->response->setStatusCode(400)->setJSON([
+                'success' => false,
+                'message' => 'The payment order could not be verified.',
+            ]);
+        }
+
+        if (($order['payment_status'] ?? '') === 'paid') {
+            return $this->response->setJSON([
+                'success'  => true,
+                'redirect' => base_url('orders/' . $order['id']),
+            ]);
+        }
+
+        if (! (new RazorpayGateway())->verify($payload, (string) $order['gateway_order_id'])) {
+            log_message('warning', 'Rejected Razorpay signature for order {orderId}.', [
+                'orderId' => $order['id'],
+            ]);
+
+            return $this->response->setStatusCode(400)->setJSON([
+                'success' => false,
+                'message' => 'Payment signature verification failed.',
+            ]);
+        }
+
+        $database = db_connect();
+        $database->transBegin();
+
+        try {
+            $orders->update($order['id'], [
+                'payment_status' => 'paid',
+                'status'         => 'processing',
+            ]);
+            (new PaymentModel())->where('order_id', $order['id'])->set([
+                'transaction_id' => $payload['razorpay_payment_id'],
+                'status'         => 'paid',
+                'raw_response'   => json_encode([
+                    'razorpay_order_id'   => $payload['razorpay_order_id'],
+                    'razorpay_payment_id' => $payload['razorpay_payment_id'],
+                    'razorpay_signature'  => $payload['razorpay_signature'],
+                ]),
+            ])->update();
+
+            if ($database->transStatus() === false) {
+                throw new \RuntimeException('The verified payment could not be saved.');
+            }
+
+            $database->transCommit();
+        } catch (\Throwable $exception) {
+            $database->transRollback();
+            log_message('error', 'Verified payment persistence failed: {message}', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $this->response->setStatusCode(500)->setJSON([
+                'success' => false,
+                'message' => 'Payment was verified but could not be saved. Please contact support.',
+            ]);
+        }
+
         (new Cart())->clear();
 
-        return redirect()->to('/orders/' . $order['id'])->with('message', 'Payment received. Thank you!');
+        return $this->response->setJSON([
+            'success'  => true,
+            'redirect' => base_url('orders/' . $order['id']),
+        ]);
+    }
+
+    private function requestPayload(): array
+    {
+        if (str_contains(strtolower($this->request->getHeaderLine('Content-Type')), 'application/json')) {
+            $json = $this->request->getJSON(true);
+            return is_array($json) ? $json : [];
+        }
+
+        return $this->request->getPost();
     }
 }
