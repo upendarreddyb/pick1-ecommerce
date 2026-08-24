@@ -1,0 +1,10 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Hostinger deploys the repository into public_html. Route requests to
+    # CodeIgniter's public web root while keeping app and vendor inaccessible.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
