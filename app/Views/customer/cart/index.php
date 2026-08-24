@@ -1,4 +1,7 @@
 <?= $this->extend('layouts/store') ?>
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/cart-recommendations.css?v=1') ?>">
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <section class="narrow">
   <p class="eyebrow">Your bag</p>

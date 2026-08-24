@@ -8,12 +8,9 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url('assets/css/store.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/policies.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/css/store-layout-v2.css?v=3') ?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/cart-recommendations.css?v=1') ?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/about-page.css?v=1') ?>">
   <?= $this->renderSection('head') ?>
 </head>
 <body class="pick1-store">
@@ -23,7 +20,7 @@
   <?php endif ?>
   <header class="site-header pick-nav">
     <a class="header-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home">
-      <img src="<?= base_url('assets/images/pick1-logo.png') ?>" alt="Pick1 Premium Flavoured Toothpicks">
+      <img src="<?= base_url('assets/images/pick1-logo.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="360" height="186" decoding="async">
     </a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     <nav aria-label="Main navigation">
@@ -64,7 +61,7 @@
 
     <section class="footer-directory">
       <div>
-        <a class="footer-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home"><img src="<?= base_url('assets/images/pick1-logo.png') ?>" alt="Pick1 Premium Flavoured Toothpicks"></a>
+        <a class="footer-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home"><img src="<?= base_url('assets/images/pick1-logo.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="360" height="186" loading="lazy" decoding="async"></a>
         <h3>About</h3>
         <a href="<?= base_url('/#why-pick1-title') ?>">Why Pick1?</a>
         <a href="<?= base_url('contact') ?>">Contact Us</a>

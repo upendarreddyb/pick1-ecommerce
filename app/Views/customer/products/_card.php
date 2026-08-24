@@ -11,7 +11,7 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
   <a class="product-media" href="<?= base_url('products/' . $p['slug']) ?>">
     <?php if ($p['sale_price']): ?><span class="sale">Sale</span><?php endif ?>
     <?php if ($cardImages): ?>
-      <img class="card-main-image" src="<?= esc($cardImages[0]) ?>" alt="<?= esc($p['name']) ?>" loading="lazy">
+      <img class="card-main-image" src="<?= esc($cardImages[0]) ?>" alt="<?= esc($p['name']) ?>" width="1080" height="1080" loading="lazy" decoding="async">
     <?php else: ?>
       <span class="placeholder pick-placeholder"><i></i><b>Pick<span>1</span></b></span>
     <?php endif ?>
@@ -21,7 +21,7 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
     <div class="card-thumbnails" aria-label="<?= esc($p['name']) ?> images">
       <?php foreach ($cardImages as $index => $cardImage): ?>
         <button type="button" class="card-thumbnail <?= $index === 0 ? 'active' : '' ?>" data-card-image="<?= esc($cardImage) ?>" aria-label="Preview image <?= $index + 1 ?>" aria-pressed="<?= $index === 0 ? 'true' : 'false' ?>">
-          <img src="<?= esc($cardImage) ?>" alt="">
+          <img src="<?= esc($cardImage) ?>" alt="" width="1080" height="1080" loading="lazy" decoding="async">
         </button>
       <?php endforeach ?>
     </div>

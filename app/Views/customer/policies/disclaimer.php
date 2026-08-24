@@ -1,4 +1,5 @@
 <?= $this->extend('layouts/store') ?>
+<?= $this->section('head') ?><link rel="stylesheet" href="<?= base_url('assets/css/policies.css') ?>"><?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <main class="policy-page">
   <header class="policy-header">

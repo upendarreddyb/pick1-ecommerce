@@ -1,4 +1,7 @@
 <?= $this->extend('layouts/store') ?>
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/about-page.css?v=1') ?>">
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <article class="about-page">
   <header class="about-hero">

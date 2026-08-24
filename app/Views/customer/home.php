@@ -8,14 +8,17 @@
 <?= $this->section('content') ?>
 <?php
 $displaySlides = $slides ?: [
-    ['default' => true, 'image' => 'assets/images/pick1-mint-hero.png', 'eyebrow' => 'Natural everyday ritual', 'title' => 'Naturally fresh', 'description' => 'Premium flavored toothpicks, thoughtfully made.', 'button_text' => 'Shop Now', 'button_url' => 'products'],
-    ['default' => true, 'image' => 'assets/images/pick1-cinnamon-hero.png', 'eyebrow' => 'Warm & aromatic', 'title' => 'Cinnamon comfort', 'description' => 'A rich flavor for calm, mindful moments.', 'button_text' => 'Explore Flavors', 'button_url' => 'products'],
-    ['default' => true, 'image' => 'assets/images/pick1-fresh-mint-hero.png', 'eyebrow' => 'Clean & uplifting', 'title' => 'Freshness, refined', 'description' => 'Carry a naturally fresh feeling wherever you go.', 'button_text' => 'Shop Mint', 'button_url' => 'products'],
+    ['default' => true, 'image' => 'assets/images/pick1-mint-hero.webp', 'eyebrow' => 'Natural everyday ritual', 'title' => 'Naturally fresh', 'description' => 'Premium flavored toothpicks, thoughtfully made.', 'button_text' => 'Shop Now', 'button_url' => 'products'],
+    ['default' => true, 'image' => 'assets/images/pick1-cinnamon-hero.webp', 'eyebrow' => 'Warm & aromatic', 'title' => 'Cinnamon comfort', 'description' => 'A rich flavor for calm, mindful moments.', 'button_text' => 'Explore Flavors', 'button_url' => 'products'],
+    ['default' => true, 'image' => 'assets/images/pick1-fresh-mint-hero.webp', 'eyebrow' => 'Clean & uplifting', 'title' => 'Freshness, refined', 'description' => 'Carry a naturally fresh feeling wherever you go.', 'button_text' => 'Shop Mint', 'button_url' => 'products'],
 ];
 $fallbackSlideImages = [
-    'assets/images/pick1-mint-hero.png',
-    'assets/images/pick1-cinnamon-hero.png',
-    'assets/images/pick1-fresh-mint-hero.png',
+    'assets/images/pick1-mint-hero.webp',
+    'assets/images/pick1-cinnamon-hero.webp',
+    'assets/images/pick1-fresh-mint-hero.webp',
+];
+$optimizedSlideImages = [
+    '1787577453_7fb4defd5294d2919225.jpg' => 'assets/images/pick1-naturally-fresh-hero.webp',
 ];
 ?>
 
@@ -27,15 +30,17 @@ $fallbackSlideImages = [
       $hasUploadedImage = $sliderFilename !== '' && is_file(FCPATH . 'uploads/sliders/' . $sliderFilename);
       $imageUrl = ! empty($slide['default'])
           ? base_url($slide['image'])
-          : ($hasUploadedImage
+          : (isset($optimizedSlideImages[$sliderFilename])
+              ? base_url($optimizedSlideImages[$sliderFilename])
+              : ($hasUploadedImage
               ? base_url('uploads/sliders/' . rawurlencode($sliderFilename))
-              : base_url($fallbackSlideImages[$index % count($fallbackSlideImages)]));
+              : base_url($fallbackSlideImages[$index % count($fallbackSlideImages)])));
       $buttonUrl = preg_match('#^https?://#i', (string) ($slide['button_url'] ?? ''))
           ? $slide['button_url']
           : base_url(ltrim((string) ($slide['button_url'] ?? 'products'), '/'));
       ?>
       <article class="carousel-slide <?= $index === 0 ? 'is-active' : '' ?>" data-slide aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>">
-        <img src="<?= esc($imageUrl) ?>" alt="<?= esc($slide['title']) ?>" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
+        <img src="<?= esc($imageUrl) ?>" alt="<?= esc($slide['title']) ?>" width="1600" height="900" decoding="async" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
         <div class="numae-hero-copy">
           <?php if (! empty($slide['eyebrow'])): ?><span><?= esc($slide['eyebrow']) ?></span><?php endif ?>
           <?php if ($index === 0): ?><h1><?= esc($slide['title']) ?></h1><?php else: ?><h2><?= esc($slide['title']) ?></h2><?php endif ?>
