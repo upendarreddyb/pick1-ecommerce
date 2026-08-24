@@ -1,8 +1,8 @@
 <?= $this->extend('layouts/store') ?>
 
 <?= $this->section('head') ?>
-<link rel="stylesheet" href="<?= base_url('assets/css/home-carousel.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/home-spacing.css?v=2') ?>">
+<style><?= file_get_contents(FCPATH . 'assets/css/home-carousel.css') ?></style>
+<style><?= file_get_contents(FCPATH . 'assets/css/home-spacing.css') ?></style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

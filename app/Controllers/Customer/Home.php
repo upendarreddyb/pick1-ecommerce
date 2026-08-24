@@ -13,22 +13,47 @@ class Home extends BaseController
 {
     public function index()
     {
-        $products = (new ProductModel())->where('status', 'active')->orderBy('id', 'DESC')->findAll(4);
-        $galleryModel = new ProductImageModel();
-        foreach ($products as &$product) {
-            $product['gallery'] = $galleryModel
-                ->where('product_id', (int) $product['id'])
-                ->orderBy('sort_order', 'ASC')
-                ->findAll();
-        }
-        unset($product);
+        $homeContent = cache()->remember('storefront_home_content_v2', 120, static function (): array {
+            $products = (new ProductModel())->where('status', 'active')->orderBy('id', 'DESC')->findAll(4);
+            $galleryByProduct = [];
+            $productIds = array_map(static fn (array $product): int => (int) $product['id'], $products);
+
+            if ($productIds !== []) {
+                $galleryRows = (new ProductImageModel())
+                    ->whereIn('product_id', $productIds)
+                    ->orderBy('product_id', 'ASC')
+                    ->orderBy('sort_order', 'ASC')
+                    ->findAll();
+
+                foreach ($galleryRows as $galleryImage) {
+                    $galleryByProduct[(int) $galleryImage['product_id']][] = $galleryImage;
+                }
+            }
+
+            foreach ($products as &$product) {
+                $product['gallery'] = $galleryByProduct[(int) $product['id']] ?? [];
+            }
+            unset($product);
+
+            return [
+                'products'     => $products,
+                'slides'       => (new SliderModel())->where('status', 'active')->orderBy('sort_order', 'ASC')->orderBy('id', 'ASC')->findAll(),
+                'videoStories' => (new VideoTestimonialModel())->where('status', 'active')->orderBy('sort_order', 'ASC')->orderBy('id', 'ASC')->findAll(),
+            ];
+        });
+
+        $firstSlideFilename = basename((string) ($homeContent['slides'][0]['image'] ?? ''));
+        $heroPreload = $firstSlideFilename === '1787577453_7fb4defd5294d2919225.jpg'
+            ? base_url('assets/images/pick1-naturally-fresh-hero.webp')
+            : null;
 
         $body = view('customer/home', [
             'title'          => 'Pick1',
-            'products'       => $products,
+            'products'       => $homeContent['products'],
             'cartQuantities' => (new Cart())->quantities(),
-            'slides'         => (new SliderModel())->where('status', 'active')->orderBy('sort_order', 'ASC')->orderBy('id', 'ASC')->findAll(),
-            'videoStories'   => (new VideoTestimonialModel())->where('status', 'active')->orderBy('sort_order', 'ASC')->orderBy('id', 'ASC')->findAll(),
+            'slides'         => $homeContent['slides'],
+            'videoStories'   => $homeContent['videoStories'],
+            'heroPreload'    => $heroPreload,
         ]);
 
         return $this->response
