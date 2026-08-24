@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url('assets/css/store.css') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/css/policies.css') ?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/store-layout-v2.css?v=2') ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/css/store-layout-v2.css?v=3') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/css/cart-recommendations.css?v=1') ?>">
   <link rel="stylesheet" href="<?= base_url('assets/css/about-page.css?v=1') ?>">
   <?= $this->renderSection('head') ?>

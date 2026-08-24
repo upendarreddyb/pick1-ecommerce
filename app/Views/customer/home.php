@@ -2,7 +2,7 @@
 
 <?= $this->section('head') ?>
 <link rel="stylesheet" href="<?= base_url('assets/css/home-carousel.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/css/home-spacing.css?v=1') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/home-spacing.css?v=2') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -12,15 +12,24 @@ $displaySlides = $slides ?: [
     ['default' => true, 'image' => 'assets/images/pick1-cinnamon-hero.png', 'eyebrow' => 'Warm & aromatic', 'title' => 'Cinnamon comfort', 'description' => 'A rich flavor for calm, mindful moments.', 'button_text' => 'Explore Flavors', 'button_url' => 'products'],
     ['default' => true, 'image' => 'assets/images/pick1-fresh-mint-hero.png', 'eyebrow' => 'Clean & uplifting', 'title' => 'Freshness, refined', 'description' => 'Carry a naturally fresh feeling wherever you go.', 'button_text' => 'Shop Mint', 'button_url' => 'products'],
 ];
+$fallbackSlideImages = [
+    'assets/images/pick1-mint-hero.png',
+    'assets/images/pick1-cinnamon-hero.png',
+    'assets/images/pick1-fresh-mint-hero.png',
+];
 ?>
 
 <section class="numae-hero home-carousel" aria-roledescription="carousel" aria-label="Pick1 featured collections">
   <div class="carousel-slides" aria-live="off">
     <?php foreach ($displaySlides as $index => $slide): ?>
       <?php
+      $sliderFilename = basename((string) ($slide['image'] ?? ''));
+      $hasUploadedImage = $sliderFilename !== '' && is_file(FCPATH . 'uploads/sliders/' . $sliderFilename);
       $imageUrl = ! empty($slide['default'])
           ? base_url($slide['image'])
-          : base_url('uploads/sliders/' . rawurlencode(basename($slide['image'])));
+          : ($hasUploadedImage
+              ? base_url('uploads/sliders/' . rawurlencode($sliderFilename))
+              : base_url($fallbackSlideImages[$index % count($fallbackSlideImages)]));
       $buttonUrl = preg_match('#^https?://#i', (string) ($slide['button_url'] ?? ''))
           ? $slide['button_url']
           : base_url(ltrim((string) ($slide['button_url'] ?? 'products'), '/'));
@@ -123,10 +132,10 @@ $displaySlides = $slides ?: [
       <summary>What flavors are available?</summary>
       <div><p>Pick1 is available in a variety of exciting flavors, including:</p><ul><li>Mint</li><li>Cinnamon</li><li>Cardamom</li><li>Paan Masala</li><li>Clove</li></ul><p>More exciting flavors are coming soon.</p></div>
     </details>
-    <details>
+    <!-- <details>
       <summary>Can Pick1 replace smoking or chewing tobacco?</summary>
       <div><p>Pick1 is not a medical product or smoking-cessation treatment. However, many customers enjoy it as a flavorful alternative to keep their mouth occupied during daily routines.</p></div>
-    </details>
+    </details> -->
     <details class="pick1-promise">
       <summary>Pick1 Promise</summary>
       <div><p><strong>Fresh Flavor. Premium Quality. Anytime Refreshment.</strong></p><p>Experience a smarter way to refresh your breath—one toothpick at a time.</p></div>
