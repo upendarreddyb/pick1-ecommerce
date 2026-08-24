@@ -87,4 +87,15 @@ class Paths
      * value - the directory should not be publicly accessible.
      */
     public string $envDirectory = __DIR__ . '/../../';
+
+    public function __construct()
+    {
+        // Hostinger keeps the protected environment file outside public_html.
+        // Prefer that location when present while retaining the normal local path.
+        $hostingerEnvDirectory = __DIR__ . '/../../../ecommerce_app';
+
+        if (is_file($hostingerEnvDirectory . '/.env')) {
+            $this->envDirectory = $hostingerEnvDirectory;
+        }
+    }
 }
