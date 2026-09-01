@@ -29,12 +29,13 @@ class Reviews extends BaseController
             ->where('orders.user_id', $userId)
             ->where('order_items.product_id', $productId)
             ->where('orders.payment_status', 'paid')
+            ->where('orders.status', 'delivered')
             ->limit(1)
             ->get()
             ->getRowArray();
 
         if (! $purchased) {
-            return redirect()->back()->with('error', 'Only customers who purchased this product can submit a review.');
+            return redirect()->back()->with('error', 'Only customers with a delivered order for this product can submit a review.');
         }
 
         $reviews = new ProductReviewModel();

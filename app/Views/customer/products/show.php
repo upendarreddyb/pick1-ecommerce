@@ -17,6 +17,7 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
         'alt' => $product['name'] . ' image ' . ($index + 2),
     ];
 }
+$showReviewSection = ! empty($reviews) || $canReview;
 ?>
 <section class="product-detail">
   <div class="product-gallery">
@@ -49,7 +50,11 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
     <?php endif ?>
     <div class="product-rating" aria-label="<?= $ratingCount ? 'Rated ' . number_format($ratingAverage, 1) . ' out of 5 from ' . $ratingCount . ' reviews' : 'No reviews yet' ?>">
       <span aria-hidden="true">★</span><strong><?= $ratingCount ? number_format($ratingAverage, 1) : '0.0' ?></strong><i></i>
-      <a href="#product-reviews"><?= $ratingCount ?> <?= $ratingCount === 1 ? 'Review' : 'Reviews' ?></a>
+      <?php if ($showReviewSection): ?>
+        <a href="#product-reviews"><?= $ratingCount ?> <?= $ratingCount === 1 ? 'Review' : 'Reviews' ?></a>
+      <?php else: ?>
+        <span class="reviews-count">No reviews yet</span>
+      <?php endif ?>
     </div>
     <p class="detail-price">
       <strong>₹<?= number_format($product['sale_price'] ?: $product['price']) ?></strong>
@@ -69,6 +74,7 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
   </div>
 </section>
 
+<?php if ($showReviewSection): ?>
 <section class="product-reviews-section" id="product-reviews">
   <header class="reviews-heading">
     <div><p class="eyebrow">Customer feedback</p><h2>Ratings &amp; Reviews</h2></div>
@@ -90,9 +96,9 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
 
     <aside class="review-form-card">
       <?php if (! session('customer_id')): ?>
-        <h3>Write a review</h3><p>Sign in to review products you have purchased.</p><a class="button dark" href="<?= base_url('login') ?>">Log in</a>
+        <h3>Write a review</h3><p>Sign in to review products from your delivered orders.</p><a class="button dark" href="<?= base_url('login') ?>">Log in</a>
       <?php elseif (! $canReview): ?>
-        <h3>Verified reviews only</h3><p>You can review this product after completing a purchase.</p>
+        <h3>Verified reviews only</h3><p>You can review this product after your paid order has been delivered.</p>
       <?php else: ?>
         <h3><?= $currentReview ? 'Update your review' : 'Write a review' ?></h3>
         <?php if ($currentReview): ?><p class="review-state">Current status: <strong><?= esc($currentReview['status']) ?></strong></p><?php endif ?>
@@ -111,6 +117,7 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
     </aside>
   </div>
 </section>
+<?php endif ?>
 
 <?php if (! empty($relatedProducts)): ?>
 <section class="product-recommendations" aria-labelledby="product-recommendations-title">

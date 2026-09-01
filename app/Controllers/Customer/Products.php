@@ -95,6 +95,7 @@ class Products extends BaseController
                 ->where('orders.user_id', $userId)
                 ->where('order_items.product_id', (int) $product['id'])
                 ->where('orders.payment_status', 'paid')
+                ->where('orders.status', 'delivered')
                 ->limit(1)
                 ->get()
                 ->getRowArray();
