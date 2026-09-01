@@ -16,6 +16,7 @@ html { scroll-padding-top: 92px; }
 @keyframes pick1-ticker{to{transform:translateX(-25%)}}
 .footer-socials svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .footer-socials svg .fill{fill:currentColor;stroke:none}
+.premium-footer .footer-contact h3:not(:first-child){margin-top:10px}
 @media(prefers-reduced-motion:reduce){.discount-ticker>div{animation:none}}
 .pick-nav nav { left: 50%; transform: translateX(-50%); }
 .pick-nav .header-actions { display: flex; align-items: center; gap: 12px; }
