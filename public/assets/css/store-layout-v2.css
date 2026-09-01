@@ -71,6 +71,27 @@ html { scroll-padding-top: 92px; }
 }
 .numae-products .product-card:hover .card-main-image,
 .collection-grid .product-card:hover .card-main-image { transform: none; }
+.product-detail {
+  grid-template-columns: minmax(320px, 470px) minmax(0, 1fr);
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+.product-gallery .detail-media > img { object-fit: contain; object-position: center; }
+.product-thumbnails { gap: 9px; padding-top: 18px; }
+.product-thumbnail { width: 76px; flex-basis: 76px; }
+.detail-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+.detail-copy > * { max-width: 100%; }
+.detail-copy .product-description { width: 100%; max-width: 620px; font-size: 18px; }
+.detail-copy .product-cart-controls { width: 100%; max-width: 430px; }
 .pick1-faq { background: #fff !important; color: #000 !important; }
 .pick1-faq .pick-eyebrow,
 .pick1-faq details > div,
@@ -103,6 +124,9 @@ html { scroll-padding-top: 92px; }
   .collection-toolbar { margin-bottom: 18px; }
   .numae-products .product-media,
   .collection-grid .product-media { height: 374px; }
+  .product-detail { grid-template-columns: 1fr; max-width: 760px; padding: 28px; gap: 24px; }
+  .product-gallery { width: min(85%, 520px); margin-inline: auto; }
+  .detail-copy { width: min(100%, 620px); padding-top: 0; }
   .about-pick1 { grid-template-columns: 1fr; }
   .about-pick1-image { min-height: 430px; }
 }
@@ -116,6 +140,11 @@ html { scroll-padding-top: 92px; }
   .collection-toolbar { margin-bottom: 16px; }
   .numae-products .product-media,
   .collection-grid .product-media { height: 221px; }
+  .product-detail { padding: 18px 16px 45px; gap: 18px; }
+  .product-gallery { width: min(88%, 340px); }
+  .product-thumbnail { width: 58px; flex-basis: 58px; }
+  .detail-copy { width: 100%; padding-top: 0; }
+  .detail-copy .product-description { font-size: 17px; }
   .about-pick1-copy { padding: 75px 24px; }
   .about-pick1 h1 { font-size: 50px; }
   .about-pick1-image { min-height: 320px; }
