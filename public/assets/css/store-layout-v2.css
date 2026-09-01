@@ -44,7 +44,11 @@ html { scroll-padding-top: 92px; }
 .home-carousel { width: 75% !important; max-width: 1320px; margin: 24px auto 0 !important; }
 .numae-products { width: auto; max-width: none; margin-inline: 2.2%; padding-inline: 0; }
 .numae-products .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.numae-products .product-media { height: 430px; }
+.numae-products .product-grid,
+.collection-grid { width: 85%; margin-inline: auto; }
+.collection-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.numae-products .product-media,
+.collection-grid .product-media { height: 366px; }
 .pick1-faq { background: #fff !important; color: #000 !important; }
 .pick1-faq .pick-eyebrow,
 .pick1-faq details > div,
@@ -72,6 +76,9 @@ html { scroll-padding-top: 92px; }
   .home-carousel, .numae-products { width: 100% !important; }
   .numae-products { padding-inline: 18px; }
   .numae-products .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .numae-products .product-media,
+  .collection-grid .product-media { height: 374px; }
   .about-pick1 { grid-template-columns: 1fr; }
   .about-pick1-image { min-height: 430px; }
 }
@@ -80,7 +87,8 @@ html { scroll-padding-top: 92px; }
   .pick-nav nav { top: 68px; }
   .home-carousel { margin-top: 0 !important; }
   .numae-products { padding-inline: 12px; }
-  .numae-products .product-media { height: 260px; }
+  .numae-products .product-media,
+  .collection-grid .product-media { height: 221px; }
   .about-pick1-copy { padding: 75px 24px; }
   .about-pick1 h1 { font-size: 50px; }
   .about-pick1-image { min-height: 320px; }
