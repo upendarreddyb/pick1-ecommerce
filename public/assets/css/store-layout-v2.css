@@ -72,15 +72,15 @@ html { scroll-padding-top: 92px; }
 .numae-products .product-card:hover .card-main-image,
 .collection-grid .product-card:hover .card-main-image { transform: none; }
 .product-detail {
-  grid-template-columns: minmax(320px, 470px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 400px) minmax(0, 1fr);
   width: 100%;
-  max-width: 1180px;
+  max-width: 1100px;
   margin-inline: auto;
   padding-inline: 32px;
 }
 .product-gallery .detail-media > img { object-fit: contain; object-position: center; }
 .product-thumbnails { gap: 9px; padding-top: 18px; }
-.product-thumbnail { width: 76px; flex-basis: 76px; }
+.product-thumbnail { width: 70px; flex-basis: 70px; }
 .detail-copy {
   display: flex;
   flex-direction: column;
@@ -136,7 +136,7 @@ html { scroll-padding-top: 92px; }
   .numae-products .product-media,
   .collection-grid .product-media { height: 374px; }
   .product-detail { grid-template-columns: 1fr; max-width: 760px; padding: 28px; gap: 24px; }
-  .product-gallery { width: min(85%, 520px); margin-inline: auto; }
+  .product-gallery { width: min(78%, 440px); margin-inline: auto; }
   .detail-copy { width: min(100%, 620px); padding-top: 0; }
   .product-reviews-section { padding: 34px 24px 50px; }
   .about-pick1 { grid-template-columns: 1fr; }
@@ -153,8 +153,8 @@ html { scroll-padding-top: 92px; }
   .numae-products .product-media,
   .collection-grid .product-media { height: 221px; }
   .product-detail { padding: 18px 16px 45px; gap: 18px; }
-  .product-gallery { width: min(88%, 340px); }
-  .product-thumbnail { width: 58px; flex-basis: 58px; }
+  .product-gallery { width: min(80%, 300px); }
+  .product-thumbnail { width: 52px; flex-basis: 52px; }
   .detail-copy { width: 100%; padding-top: 0; }
   .detail-copy .product-description { font-size: 17px; }
   .product-reviews-section { padding: 30px 14px 42px; }
