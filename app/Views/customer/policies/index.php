@@ -342,4 +342,28 @@
     <aside class="policy-contact"><h2>Policy Contact</h2><p>Pick1<br>Shatavari Ayurvedic and Pharmaceutical Private Limited</p><p>Email: <a href="mailto:info@pick1.in">info@pick1.in</a><br>Website: <a href="https://pick1.in">pick1.in</a></p></aside>
   </div>
 </article>
+<script>
+(() => {
+  const policyIds = new Set([
+    'shipping-policy',
+    'terms-of-service',
+    'privacy-policy',
+    'return-refund-policy',
+  ]);
+  const scrollToCurrentPolicy = () => {
+    const id = window.location.hash.slice(1);
+    const target = policyIds.has(id) ? document.getElementById(id) : null;
+    if (! target) return;
+    window.requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+  };
+
+  window.addEventListener('hashchange', scrollToCurrentPolicy);
+  window.addEventListener('load', () => {
+    scrollToCurrentPolicy();
+    window.setTimeout(scrollToCurrentPolicy, 250);
+    window.setTimeout(scrollToCurrentPolicy, 750);
+    window.setTimeout(scrollToCurrentPolicy, 1500);
+  });
+})();
+</script>
 <?= $this->endSection() ?>
