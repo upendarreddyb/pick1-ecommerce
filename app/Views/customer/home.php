@@ -44,7 +44,7 @@ $optimizedSlideImages = [
           || trim((string) ($slide['button_text'] ?? '')) !== '';
       ?>
       <article class="carousel-slide <?= $index === 0 ? 'is-active' : '' ?>" data-slide aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>">
-        <img src="<?= esc($imageUrl) ?>" alt="<?= esc(trim((string) ($slide['title'] ?? '')) ?: 'Pick1 featured slide') ?>" width="1600" height="900" loading="eager" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
+        <img src="<?= esc($imageUrl) ?>" alt="<?= esc(trim((string) ($slide['title'] ?? '')) ?: 'Pick1 featured slide') ?>" width="1600" height="900" loading="<?= $index === 0 ? 'eager' : 'lazy' ?>" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
         <?php if ($hasSlideCopy): ?>
         <div class="numae-hero-copy">
           <?php if (! empty($slide['eyebrow'])): ?><span><?= esc($slide['eyebrow']) ?></span><?php endif ?>
@@ -245,8 +245,31 @@ $optimizedSlideImages = [
   let timer;
   let touchStart = 0;
 
+  const slideImages = slides.map(slide => slide.querySelector('img'));
+  const loadImage = image => {
+    if (!image || (image.complete && image.naturalWidth > 0)) return Promise.resolve();
+    image.loading = 'eager';
+    return new Promise(resolve => {
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', resolve, { once: true });
+    });
+  };
+
+  const preloadRemainingSlides = async () => {
+    for (const image of slideImages.slice(1)) await loadImage(image);
+  };
+
   const show = (index) => {
-    active = (index + slides.length) % slides.length;
+    const target = (index + slides.length) % slides.length;
+    const targetImage = slideImages[target];
+    if (targetImage && (!targetImage.complete || targetImage.naturalWidth < 1)) {
+      targetImage.fetchPriority = 'high';
+      loadImage(targetImage).then(() => {
+        if (targetImage.naturalWidth > 0) show(target);
+      });
+      return;
+    }
+    active = target;
     slides.forEach((slide, position) => {
       const selected = position === active;
       slide.classList.toggle('is-active', selected);
@@ -282,6 +305,9 @@ $optimizedSlideImages = [
   }, {passive: true});
   show(0);
   start();
+  const firstImage = slideImages[0];
+  if (firstImage?.complete && firstImage.naturalWidth > 0) preloadRemainingSlides();
+  else firstImage?.addEventListener('load', preloadRemainingSlides, { once: true });
 })();
 
 (() => {

@@ -42,7 +42,14 @@ html { scroll-padding-top: 92px; }
 }
 .header-search-form button { flex: 0 0 40px; width: 40px; height: 40px; border: 0; background: transparent; }
 .header-search-form .search-icon svg { width: 22px; height: 22px; }
-.home-carousel { width: 75% !important; max-width: 1320px; margin: 24px auto 0 !important; }
+.home-carousel {
+  width: 75% !important;
+  max-width: 1320px;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9;
+  margin: 24px auto 0 !important;
+}
 .numae-intro .numae-intro-kicker {
   margin: 0 0 14px;
   color: #155b3d;
