@@ -96,7 +96,7 @@ html { scroll-padding-top: 92px; }
 .reviews-heading,
 .reviews-layout { max-width: 1116px; }
 .reviews-heading { align-items: flex-end; margin-bottom: 28px; }
-.reviews-heading h2 { font-size: clamp(32px, 3.3vw, 44px); line-height: 1.1; }
+.reviews-heading h2 { font-size: clamp(28px, 2.7vw, 36px); line-height: 1.1; }
 .reviews-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 28px; }
 .customer-review,
 .review-empty,
@@ -157,7 +157,7 @@ html { scroll-padding-top: 92px; }
   .detail-copy .product-description { font-size: 17px; }
   .product-reviews-section { padding: 42px 16px 60px; }
   .reviews-heading { margin-bottom: 24px; }
-  .reviews-heading h2 { font-size: 34px; }
+  .reviews-heading h2 { font-size: 28px; }
   .reviews-summary strong { font-size: 32px; }
   .about-pick1-copy { padding: 75px 24px; }
   .about-pick1 h1 { font-size: 50px; }
