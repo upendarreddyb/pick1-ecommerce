@@ -44,7 +44,9 @@ $optimizedSlideImages = [
           || trim((string) ($slide['button_text'] ?? '')) !== '';
       ?>
       <article class="carousel-slide <?= $index === 0 ? 'is-active' : '' ?>" data-slide aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>">
-        <img src="<?= esc($imageUrl) ?>" alt="<?= esc(trim((string) ($slide['title'] ?? '')) ?: 'Pick1 featured slide') ?>" width="1600" height="900" loading="<?= $index === 0 ? 'eager' : 'lazy' ?>" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
+        <a class="carousel-image-link" href="<?= base_url('products') ?>" aria-label="View Pick1 products">
+          <img src="<?= esc($imageUrl) ?>" alt="<?= esc(trim((string) ($slide['title'] ?? '')) ?: 'Pick1 featured slide') ?>" width="1600" height="900" loading="<?= $index === 0 ? 'eager' : 'lazy' ?>" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
+        </a>
         <?php if ($hasSlideCopy): ?>
         <div class="numae-hero-copy">
           <?php if (! empty($slide['eyebrow'])): ?><span><?= esc($slide['eyebrow']) ?></span><?php endif ?>
