@@ -1,5 +1,6 @@
 <?php
 $cardImages = [];
+$cardImageLoading = trim(service('request')->getUri()->getPath(), '/') === 'products' ? 'eager' : 'lazy';
 if (! empty($p['image'])) {
     $cardImages[] = base_url('uploads/products/' . rawurlencode(basename($p['image'])));
 }
@@ -11,7 +12,7 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
   <a class="product-media" href="<?= base_url('products/' . $p['slug']) ?>">
     <?php if ($p['sale_price']): ?><span class="sale">Sale</span><?php endif ?>
     <?php if ($cardImages): ?>
-      <img class="card-main-image" src="<?= esc($cardImages[0]) ?>" alt="<?= esc($p['name']) ?>" width="1080" height="1080" loading="lazy" decoding="async">
+      <img class="card-main-image" src="<?= esc($cardImages[0]) ?>" alt="<?= esc($p['name']) ?>" width="1080" height="1080" loading="<?= esc($cardImageLoading) ?>" decoding="async">
     <?php else: ?>
       <span class="placeholder pick-placeholder"><i></i><b>Pick<span>1</span></b></span>
     <?php endif ?>
