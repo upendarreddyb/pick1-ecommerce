@@ -57,17 +57,15 @@ class Sliders extends BaseController
         }
 
         $rules = [
-            'title'       => 'required|max_length[180]',
+            'title'       => 'permit_empty|max_length[180]',
             'eyebrow'     => 'permit_empty|max_length[120]',
             'description' => 'permit_empty|max_length[300]',
             'button_text' => 'permit_empty|max_length[80]',
             'button_url'  => 'permit_empty|max_length[255]',
-            'sort_order'  => 'required|integer',
-            'status'      => 'required|in_list[active,inactive]',
+            'sort_order'  => 'permit_empty|integer',
+            'status'      => 'permit_empty|in_list[active,inactive]',
         ];
-        if (! $id || $hasUpload) {
-            $rules['image'] = 'uploaded[image]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]|ext_in[image,jpg,jpeg,png,webp]|max_size[image,5120]';
-        }
+        $rules['image'] = 'uploaded[image]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png,image/webp]|ext_in[image,jpg,jpeg,png,webp]|max_size[image,5120]';
 
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('error', implode(' ', $this->validator->getErrors()));
@@ -84,8 +82,8 @@ class Sliders extends BaseController
             'description' => trim((string) $this->request->getPost('description')) ?: null,
             'button_text' => trim((string) $this->request->getPost('button_text')) ?: null,
             'button_url'  => $buttonUrl ?: null,
-            'sort_order'  => (int) $this->request->getPost('sort_order'),
-            'status'      => (string) $this->request->getPost('status'),
+            'sort_order'  => (int) ($this->request->getPost('sort_order') ?: 0),
+            'status'      => (string) ($this->request->getPost('status') ?: ($old['status'] ?? 'active')),
         ];
 
         $newImagePath = null;

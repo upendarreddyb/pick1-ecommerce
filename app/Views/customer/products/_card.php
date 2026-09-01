@@ -22,7 +22,7 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
     <div class="card-thumbnails" aria-label="<?= esc($p['name']) ?> images">
       <?php foreach ($cardImages as $index => $cardImage): ?>
         <button type="button" class="card-thumbnail <?= $index === 0 ? 'active' : '' ?>" data-card-image="<?= esc($cardImage) ?>" aria-label="Preview image <?= $index + 1 ?>" aria-pressed="<?= $index === 0 ? 'true' : 'false' ?>">
-          <img src="<?= esc($cardImage) ?>" alt="" width="1080" height="1080" loading="lazy" decoding="async">
+          <img src="<?= esc($cardImage) ?>" alt="" width="1080" height="1080" loading="eager" fetchpriority="low" decoding="async">
         </button>
       <?php endforeach ?>
     </div>

@@ -38,15 +38,21 @@ $optimizedSlideImages = [
       $buttonUrl = preg_match('#^https?://#i', (string) ($slide['button_url'] ?? ''))
           ? $slide['button_url']
           : base_url(ltrim((string) ($slide['button_url'] ?? 'products'), '/'));
+      $hasSlideCopy = trim((string) ($slide['eyebrow'] ?? '')) !== ''
+          || trim((string) ($slide['title'] ?? '')) !== ''
+          || trim((string) ($slide['description'] ?? '')) !== ''
+          || trim((string) ($slide['button_text'] ?? '')) !== '';
       ?>
       <article class="carousel-slide <?= $index === 0 ? 'is-active' : '' ?>" data-slide aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>">
-        <img src="<?= esc($imageUrl) ?>" alt="<?= esc($slide['title']) ?>" width="1600" height="900" loading="eager" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
+        <img src="<?= esc($imageUrl) ?>" alt="<?= esc(trim((string) ($slide['title'] ?? '')) ?: 'Pick1 featured slide') ?>" width="1600" height="900" loading="eager" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
+        <?php if ($hasSlideCopy): ?>
         <div class="numae-hero-copy">
           <?php if (! empty($slide['eyebrow'])): ?><span><?= esc($slide['eyebrow']) ?></span><?php endif ?>
           <?php if ($index === 0): ?><h1><?= esc($slide['title']) ?></h1><?php else: ?><h2><?= esc($slide['title']) ?></h2><?php endif ?>
           <?php if (! empty($slide['description'])): ?><p><?= esc($slide['description']) ?></p><?php endif ?>
           <?php if (! empty($slide['button_text'])): ?><a href="<?= esc($buttonUrl) ?>"><?= esc($slide['button_text']) ?></a><?php endif ?>
         </div>
+        <?php endif ?>
       </article>
     <?php endforeach ?>
   </div>

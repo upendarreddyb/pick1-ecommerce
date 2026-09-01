@@ -5,12 +5,12 @@
   <?= csrf_field() ?>
   <?php if (isset($row)): ?><input type="hidden" name="_method" value="PUT"><?php endif ?>
 
-  <label>Small heading<input name="eyebrow" maxlength="120" value="<?= esc(old('eyebrow', $row['eyebrow'] ?? '')) ?>" placeholder="Natural everyday ritual"></label>
-  <label>Display order<input type="number" name="sort_order" value="<?= esc(old('sort_order', $row['sort_order'] ?? 0)) ?>" required></label>
-  <label class="wide">Main heading<input name="title" maxlength="180" value="<?= esc(old('title', $row['title'] ?? '')) ?>" required placeholder="Naturally fresh"></label>
-  <label class="wide">Description<textarea name="description" maxlength="300" rows="3" placeholder="Premium flavored toothpicks, thoughtfully made."><?= esc(old('description', $row['description'] ?? '')) ?></textarea></label>
-  <label>Button text<input name="button_text" maxlength="80" value="<?= esc(old('button_text', $row['button_text'] ?? 'Shop Now')) ?>"></label>
-  <label>Button link<input name="button_url" maxlength="255" value="<?= esc(old('button_url', $row['button_url'] ?? 'products')) ?>" placeholder="products"></label>
+  <label>Small heading <small>(optional)</small><input name="eyebrow" maxlength="120" value="<?= esc(old('eyebrow', $row['eyebrow'] ?? '')) ?>" placeholder="Natural everyday ritual"></label>
+  <label>Display order <small>(optional)</small><input type="number" name="sort_order" value="<?= esc(old('sort_order', $row['sort_order'] ?? '')) ?>" placeholder="0"></label>
+  <label class="wide">Main heading <small>(optional)</small><input name="title" maxlength="180" value="<?= esc(old('title', $row['title'] ?? '')) ?>" placeholder="Naturally fresh"></label>
+  <label class="wide">Description <small>(optional)</small><textarea name="description" maxlength="300" rows="3" placeholder="Premium flavored toothpicks, thoughtfully made."><?= esc(old('description', $row['description'] ?? '')) ?></textarea></label>
+  <label>Button text <small>(optional)</small><input name="button_text" maxlength="80" value="<?= esc(old('button_text', $row['button_text'] ?? '')) ?>" placeholder="Shop Now"></label>
+  <label>Button link <small>(optional)</small><input name="button_url" maxlength="255" value="<?= esc(old('button_url', $row['button_url'] ?? '')) ?>" placeholder="products"></label>
   <label>Status<select name="status"><option value="active" <?= old('status', $row['status'] ?? 'active') === 'active' ? 'selected' : '' ?>>Active</option><option value="inactive" <?= old('status', $row['status'] ?? 'active') === 'inactive' ? 'selected' : '' ?>>Inactive</option></select></label>
 
   <div class="wide slider-image-editor">
@@ -23,7 +23,7 @@
         <span id="slider-preview-placeholder">Banner preview</span>
       <?php endif ?>
     </div>
-    <label>Slider image<input id="slider-image-input" type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" <?= isset($row) ? '' : 'required' ?>><small>Recommended size: 1672 × 941 px. JPG, PNG or WebP, maximum 5 MB.</small></label>
+    <label>Slider image <small>(required)</small><input id="slider-image-input" type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required><small>Upload an image whenever you add or edit a slide. Recommended size: 1672 × 941 px. JPG, PNG or WebP, maximum 5 MB.</small></label>
   </div>
 
   <button class="btn wide" type="submit">Save slide</button>
