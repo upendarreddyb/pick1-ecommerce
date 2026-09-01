@@ -23,7 +23,7 @@ $showReviewSection = ! empty($reviews) || $canReview;
   <div class="product-gallery">
     <div class="detail-media">
       <?php if ($productImages): ?>
-        <img id="product-main-image" src="<?= esc($productImages[0]['url']) ?>" alt="<?= esc($productImages[0]['alt']) ?>">
+        <img id="product-main-image" src="<?= esc($productImages[0]['url']) ?>" alt="<?= esc($productImages[0]['alt']) ?>" width="1080" height="1080" loading="eager" fetchpriority="high" decoding="async">
       <?php else: ?>
         <span class="placeholder large"><i></i><b>Pick1</b></span>
       <?php endif ?>

@@ -40,7 +40,7 @@ $optimizedSlideImages = [
           : base_url(ltrim((string) ($slide['button_url'] ?? 'products'), '/'));
       ?>
       <article class="carousel-slide <?= $index === 0 ? 'is-active' : '' ?>" data-slide aria-hidden="<?= $index === 0 ? 'false' : 'true' ?>">
-        <img src="<?= esc($imageUrl) ?>" alt="<?= esc($slide['title']) ?>" width="1600" height="900" decoding="async" <?= $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' ?>>
+        <img src="<?= esc($imageUrl) ?>" alt="<?= esc($slide['title']) ?>" width="1600" height="900" loading="eager" decoding="async" fetchpriority="<?= $index === 0 ? 'high' : 'low' ?>">
         <div class="numae-hero-copy">
           <?php if (! empty($slide['eyebrow'])): ?><span><?= esc($slide['eyebrow']) ?></span><?php endif ?>
           <?php if ($index === 0): ?><h1><?= esc($slide['title']) ?></h1><?php else: ?><h2><?= esc($slide['title']) ?></h2><?php endif ?>

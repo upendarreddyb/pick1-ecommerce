@@ -125,6 +125,9 @@ html { scroll-padding-top: 92px; }
   .pick-nav .menu-toggle { grid-column: 2; }
   .pick-nav nav { left: 0; transform: none; top: 82px; }
   .pick-nav .header-actions { grid-column: 4; }
+  .pick-nav .header-actions > .header-icon,
+  .pick-nav .header-actions > .cart-trigger { display: inline-grid !important; }
+  .header-search-form button { display: inline-grid; place-items: center; }
   .header-search-form { width: 44px; border: 0; background: transparent; }
   .header-search-form input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
   .home-carousel, .numae-products { width: 100% !important; }
@@ -145,6 +148,9 @@ html { scroll-padding-top: 92px; }
 @media (max-width: 560px) {
   .site-header.pick-nav { grid-template-columns: 90px auto 1fr auto; }
   .pick-nav nav { top: 68px; }
+  .pick-nav .header-actions { gap: 3px; }
+  .pick-nav .header-actions > .header-icon,
+  .pick-nav .header-actions > .cart-trigger { display: inline-grid !important; }
   .home-carousel { margin-top: 0 !important; }
   .numae-products { padding-inline: 12px; }
   .collection-page { padding-top: 24px; }

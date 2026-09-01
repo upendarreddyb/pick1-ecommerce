@@ -1,6 +1,6 @@
 <?php
 $cardImages = [];
-$cardImageLoading = trim(service('request')->getUri()->getPath(), '/') === 'products' ? 'eager' : 'lazy';
+$cardImageLoading = 'eager';
 if (! empty($p['image'])) {
     $cardImages[] = base_url('uploads/products/' . rawurlencode(basename($p['image'])));
 }
