@@ -75,9 +75,13 @@ $optimizedSlideImages = [
   </div>
 </section>
 
-<section class="numae-intro"><h2>Natural Ingredients</h2><p>crafted from natural birchwood and natural flavors<br>for a health-focused toothpick</p></section>
+<section class="numae-intro">
+  <p class="numae-intro-kicker">Natural &amp; Modern</p>
+  <h2>Nature in Every Pick</h2>
+  <p>Crafted from premium birchwood and natural flavors for a clean, refreshing experience.</p>
+</section>
 
-<section class="numae-products"><header><p>Featured Products</p><em>pure, premium, and always loved</em></header><div class="product-grid"><?php foreach ($products as $p): ?><?= view('customer/products/_card', ['p' => $p, 'cartQuantity' => $cartQuantities[(int) $p['id']] ?? 0]) ?><?php endforeach ?></div><a class="numae-shop" href="<?= base_url('products') ?>">Shop all products</a></section>
+<section class="numae-products"><div class="product-grid"><?php foreach ($products as $p): ?><?= view('customer/products/_card', ['p' => $p, 'cartQuantity' => $cartQuantities[(int) $p['id']] ?? 0]) ?><?php endforeach ?></div><a class="numae-shop" href="<?= base_url('products') ?>">Shop all products</a></section>
 
 <section class="pick1-faq" aria-labelledby="pick1-faq-title">
   <header>
