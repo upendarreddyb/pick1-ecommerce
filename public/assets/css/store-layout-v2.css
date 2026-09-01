@@ -92,6 +92,15 @@ html { scroll-padding-top: 92px; }
 .detail-copy > * { max-width: 100%; }
 .detail-copy .product-description { width: 100%; max-width: 620px; font-size: 18px; }
 .detail-copy .product-cart-controls { width: 100%; max-width: 430px; }
+.product-reviews-section { padding: 56px 32px 80px; }
+.reviews-heading,
+.reviews-layout { max-width: 1116px; }
+.reviews-heading { align-items: flex-end; margin-bottom: 28px; }
+.reviews-heading h2 { font-size: clamp(32px, 3.3vw, 44px); line-height: 1.1; }
+.reviews-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 28px; }
+.customer-review,
+.review-empty,
+.review-form-card { padding: 22px; }
 .pick1-faq { background: #fff !important; color: #000 !important; }
 .pick1-faq .pick-eyebrow,
 .pick1-faq details > div,
@@ -127,6 +136,7 @@ html { scroll-padding-top: 92px; }
   .product-detail { grid-template-columns: 1fr; max-width: 760px; padding: 28px; gap: 24px; }
   .product-gallery { width: min(85%, 520px); margin-inline: auto; }
   .detail-copy { width: min(100%, 620px); padding-top: 0; }
+  .product-reviews-section { padding: 46px 28px 70px; }
   .about-pick1 { grid-template-columns: 1fr; }
   .about-pick1-image { min-height: 430px; }
 }
@@ -145,6 +155,10 @@ html { scroll-padding-top: 92px; }
   .product-thumbnail { width: 58px; flex-basis: 58px; }
   .detail-copy { width: 100%; padding-top: 0; }
   .detail-copy .product-description { font-size: 17px; }
+  .product-reviews-section { padding: 42px 16px 60px; }
+  .reviews-heading { margin-bottom: 24px; }
+  .reviews-heading h2 { font-size: 34px; }
+  .reviews-summary strong { font-size: 32px; }
   .about-pick1-copy { padding: 75px 24px; }
   .about-pick1 h1 { font-size: 50px; }
   .about-pick1-image { min-height: 320px; }
