@@ -14,21 +14,9 @@ class Dashboard extends BaseController
             ->where('payment_status', 'paid')
             ->where('id >', $lastSeenOrderId)
             ->countAllResults();
-        $recentOrders = $database->table('orders')
-            ->select('orders.id, orders.total_amount, orders.status, orders.payment_status, orders.created_at, addresses.full_name')
-            ->join('addresses', 'addresses.id = orders.address_id', 'left')
-            ->where('orders.payment_status', 'paid')
-            ->where('orders.id >', $lastSeenOrderId)
-            ->orderBy('orders.id', 'DESC')
-            ->limit(10)
-            ->get()
-            ->getResultArray();
-
         return view('admin/dashboard', [
             'title' => 'Dashboard',
-            'recentOrders' => $recentOrders,
             'unreadOrderCount' => $unreadOrderCount,
-            'latestOrderId' => $recentOrders ? (int) $recentOrders[0]['id'] : $lastSeenOrderId,
             'stats' => [
                 'orders' => $database->table('orders')->countAllResults(),
                 'revenue' => $database->table('orders')->selectSum('total_amount')->where('payment_status', 'paid')->get()->getRow('total_amount') ?: 0,
@@ -38,16 +26,26 @@ class Dashboard extends BaseController
         ]);
     }
 
-    public function readOrderNotifications()
+    public function orderNotifications()
     {
-        $latestOrder = db_connect()->table('orders')
-            ->selectMax('id')
+        $database = db_connect();
+        $lastSeenOrderId = (int) session('admin_orders_seen_id');
+        $rows = $database->table('orders')
+            ->select('orders.id, orders.total_amount, orders.status, orders.payment_status, orders.payment_method, orders.created_at, addresses.full_name, addresses.phone')
+            ->join('addresses', 'addresses.id = orders.address_id', 'left')
             ->where('payment_status', 'paid')
+            ->orderBy('orders.id', 'DESC')
+            ->limit(30)
             ->get()
-            ->getRowArray();
+            ->getResultArray();
 
-        session()->set('admin_orders_seen_id', (int) ($latestOrder['id'] ?? 0));
+        $latestOrderId = $rows ? (int) $rows[0]['id'] : $lastSeenOrderId;
+        session()->set('admin_orders_seen_id', max($lastSeenOrderId, $latestOrderId));
 
-        return $this->response->setJSON(['success' => true]);
+        return view('admin/order_notifications/index', [
+            'title' => 'Order Notifications',
+            'rows' => $rows,
+            'lastSeenOrderId' => $lastSeenOrderId,
+        ]);
     }
 }
