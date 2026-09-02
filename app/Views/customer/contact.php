@@ -6,7 +6,7 @@
     <h1>We’d love to<br><em>hear from you.</em></h1>
     <p>Questions about an order, our products, or wholesale and bulk pricing? Send us your required quantity and delivery location.</p>
     <div class="contact-details">
-      <p><strong>Phone number</strong><a href="tel:+919703255444">+91 97032 55444</a></p>
+      <p><strong>Phone number</strong><a href="tel:+919703255444">+919703255444</a></p>
       <p><strong>Email</strong><a href="mailto:support@pick1.in">support@pick1.in</a><span> or </span><a href="mailto:info@pick1.in">info@pick1.in</a></p>
     </div>
   </div>

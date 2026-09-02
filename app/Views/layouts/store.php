@@ -85,7 +85,7 @@
       <div class="footer-contact">
         <h3>Chat to Us</h3>
         <p>Mon-Sat from 9am to 7pm.</p>
-        <a href="tel:+919703255444">+91 97032 55444</a>
+        <a href="tel:+919703255444">+919703255444</a>
         <h3>Email Us</h3>
         <p>Our friendly team is here to help.</p>
         <a href="mailto:support@pick1.in">support@pick1.in</a>
