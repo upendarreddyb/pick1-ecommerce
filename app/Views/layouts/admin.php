@@ -1,4 +1,26 @@
-<?php $section = service('uri')->getSegment(2) ?: 'dashboard'; ?>
+<?php
+$section = service('uri')->getSegment(2) ?: 'dashboard';
+$newOrderCount = 0;
+$newOrders = [];
+
+if (session('admin_id')) {
+    $database = db_connect();
+    $newOrderStatuses = ['pending', 'processing'];
+    $newOrderCount = $database->table('orders')
+        ->where('payment_status', 'paid')
+        ->whereIn('status', $newOrderStatuses)
+        ->countAllResults();
+    $newOrders = $database->table('orders')
+        ->select('orders.id, orders.total_amount, orders.status, orders.payment_status, orders.created_at, addresses.full_name')
+        ->join('addresses', 'addresses.id = orders.address_id', 'left')
+        ->where('orders.payment_status', 'paid')
+        ->whereIn('orders.status', $newOrderStatuses)
+        ->orderBy('orders.id', 'DESC')
+        ->limit(6)
+        ->get()
+        ->getResultArray();
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,11 +63,36 @@
   <main class="admin-main">
     <header class="admin-topbar">
       <div><p class="breadcrumb">Pick1 / <?= esc(ucfirst($section)) ?></p><h1><?= esc($title) ?></h1></div>
-      <div class="admin-profile"><span><?= strtoupper(substr((string)session('admin_name'),0,1)) ?></span><div><strong><?= esc(session('admin_name')) ?></strong><small>Administrator</small></div></div>
+      <div class="admin-top-actions">
+        <details class="admin-notifications">
+          <summary aria-label="<?= $newOrderCount ?> new order notification<?= $newOrderCount === 1 ? '' : 's' ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+            <?php if ($newOrderCount > 0): ?><b><?= $newOrderCount > 99 ? '99+' : $newOrderCount ?></b><?php endif ?>
+          </summary>
+          <section class="admin-notification-panel">
+            <header><div><small>Notifications</small><h2>New orders</h2></div><span><?= $newOrderCount ?></span></header>
+            <div class="admin-notification-list">
+              <?php if ($newOrders): ?>
+                <?php foreach ($newOrders as $newOrder): ?>
+                  <a href="<?= base_url('admin/orders/' . $newOrder['id']) ?>">
+                    <span class="admin-notification-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"></path><path d="M9 8h6M9 12h6"></path></svg></span>
+                    <span class="admin-notification-copy"><strong><?= esc(order_number($newOrder)) ?></strong><small><?= esc($newOrder['full_name'] ?: 'Customer') ?> · ₹<?= number_format((float) $newOrder['total_amount'], 2) ?></small><time><?= esc(date('d M Y, h:i A', strtotime((string) $newOrder['created_at']))) ?></time></span>
+                    <span class="admin-notification-arrow">›</span>
+                  </a>
+                <?php endforeach ?>
+              <?php else: ?>
+                <div class="admin-notification-empty"><span>✓</span><strong>No new orders</strong><small>New paid orders will appear here.</small></div>
+              <?php endif ?>
+            </div>
+            <a class="admin-notification-all" href="<?= base_url('admin/orders') ?>">View all orders <span>→</span></a>
+          </section>
+        </details>
+        <div class="admin-profile"><span><?= strtoupper(substr((string)session('admin_name'),0,1)) ?></span><div><strong><?= esc(session('admin_name')) ?></strong><small>Administrator</small></div></div>
+      </div>
     </header>
     <?php if(session('message')||session('error')): ?><div class="notice <?= session('error')?'notice-error':'' ?>"><span><?= session('error')?'!':'✓' ?></span><?= esc(session('message')??session('error')) ?></div><?php endif ?>
     <?= $this->renderSection('content') ?>
   </main>
-  <script>(()=>{const button=document.querySelector('.admin-toggle'),nav=document.querySelector('.admin-nav'),overlay=document.querySelector('.admin-overlay');const close=()=>{nav.classList.remove('open');overlay.classList.remove('open');button.setAttribute('aria-expanded','false')};button.addEventListener('click',()=>{const active=nav.classList.toggle('open');overlay.classList.toggle('open',active);button.setAttribute('aria-expanded',active)});overlay.addEventListener('click',close)})();</script>
+  <script>(()=>{const button=document.querySelector('.admin-toggle'),nav=document.querySelector('.admin-nav'),overlay=document.querySelector('.admin-overlay'),notifications=document.querySelector('.admin-notifications');const close=()=>{nav.classList.remove('open');overlay.classList.remove('open');button.setAttribute('aria-expanded','false')};button.addEventListener('click',()=>{const active=nav.classList.toggle('open');overlay.classList.toggle('open',active);button.setAttribute('aria-expanded',active)});overlay.addEventListener('click',close);document.addEventListener('click',event=>{if(notifications?.open&&!notifications.contains(event.target))notifications.removeAttribute('open')});document.addEventListener('keydown',event=>{if(event.key==='Escape')notifications?.removeAttribute('open')})})();</script>
 </body>
 </html>
