@@ -36,14 +36,15 @@ $statusDetails = [
     'pending'    => ['Order placed', 'We have received your order and are waiting for payment confirmation.', 0],
     'processing' => ['Preparing your order', 'Your payment is confirmed and your Pick1 order is being packed.', 0],
     'shipped'    => ['Your order has shipped', 'Your Pick1 order is on its way to you.', 1],
+    'out_for_delivery' => ['Out for delivery', 'Your Pick1 order is with the delivery partner and will arrive soon.', 2],
     'delivered'  => ['Order delivered', 'Your order has been delivered. We hope you enjoy every Pick.', 3],
     'cancelled'  => ['Order cancelled', 'This order has been cancelled. Contact our support team if you need help.', 0],
 ];
 [$statusTitle, $statusMessage, $completedStep] = $statusDetails[$status] ?? $statusDetails['pending'];
 $steps = [
     ['Ordered', date('d M', $placedAt)],
-    ['Shipped', in_array($status, ['shipped', 'delivered'], true) ? date('d M', $updatedAt) : 'Pending'],
-    ['Out for delivery', $status === 'delivered' ? date('d M', $updatedAt) : 'Pending'],
+    ['Shipped', in_array($status, ['shipped', 'out_for_delivery', 'delivered'], true) ? date('d M', $updatedAt) : 'Pending'],
+    ['Out for delivery', in_array($status, ['out_for_delivery', 'delivered'], true) ? date('d M', $updatedAt) : 'Pending'],
     ['Delivered', $status === 'delivered' ? date('d M', $updatedAt) : date('d M', $estimatedAt)],
 ];
 ?>

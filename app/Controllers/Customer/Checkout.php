@@ -29,7 +29,7 @@ class Checkout extends BaseController
             'city'      => 'required',
             'state'     => 'required',
             'pincode'   => 'required|numeric',
-            'payment_method' => 'required|in_list[razorpay,gpay]',
+            'payment_method' => 'required|in_list[razorpay]',
         ];
         if (! $this->validate($rules)) {
             return redirect()->back()->withInput()->with('error', 'Please complete all required address fields.');

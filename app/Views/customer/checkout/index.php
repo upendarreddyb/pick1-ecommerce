@@ -18,8 +18,7 @@
 
       <fieldset class="payment-choice">
         <legend>Choose how you want to pay</legend>
-        <label class="payment-option"><input type="radio" name="payment_method" value="razorpay" <?= old('payment_method','razorpay')==='razorpay'?'checked':'' ?>><span class="payment-logo razorpay-mark">R</span><span><strong>Razorpay</strong><small>Cards, UPI, netbanking and wallets</small></span><i>›</i></label>
-        <label class="payment-option"><input type="radio" name="payment_method" value="gpay" <?= old('payment_method')==='gpay'?'checked':'' ?>><span class="payment-logo gpay-mark"><b>G</b></span><span><strong>Google Pay</strong><small>Pay using Google Pay through secure UPI</small></span><i>›</i></label>
+        <label class="payment-option"><input type="radio" name="payment_method" value="razorpay" checked><span class="payment-logo razorpay-mark">R</span><span><strong>Razorpay</strong><small>Cards, UPI, netbanking and wallets</small></span><i>›</i></label>
       </fieldset>
       <button class="checkout-pay-button">Continue to payment · ₹<?= number_format($total,2) ?></button>
       <p class="secure-note">🔒 Payment details are handled securely by Razorpay.</p>

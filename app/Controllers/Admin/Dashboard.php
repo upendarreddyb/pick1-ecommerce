@@ -48,4 +48,16 @@ class Dashboard extends BaseController
             'lastSeenOrderId' => $lastSeenOrderId,
         ]);
     }
+
+    public function orderNotificationCount()
+    {
+        $count = db_connect()->table('orders')
+            ->where('payment_status', 'paid')
+            ->where('id >', (int) session('admin_orders_seen_id'))
+            ->countAllResults();
+
+        return $this->response
+            ->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate')
+            ->setJSON(['count' => $count]);
+    }
 }

@@ -7,13 +7,8 @@
     <h1>Review and pay</h1>
     <div class="payment-mini-items"><?php foreach($items as $item): ?><div><span><?= esc($item['name']) ?> × <?= $item['quantity'] ?></span><strong>₹<?= number_format(($item['sale_price']?:$item['price'])*$item['quantity'],2) ?></strong></div><?php endforeach ?></div>
     <div class="payment-due"><span>Total payable</span><strong>₹<?= number_format($order['total_amount'],2) ?></strong></div>
-    <?php if($paymentMethod==='gpay'): ?>
-      <button id="pay" type="button" class="gateway-button gpay-button"><span class="gpay-g">G</span> Pay with Google Pay</button>
-      <p>Google Pay opens through Razorpay’s secure UPI checkout. Availability depends on your device and enabled Razorpay payment methods.</p>
-    <?php else: ?>
-      <button id="pay" type="button" class="gateway-button razorpay-button"><span>R</span> Pay securely with Razorpay</button>
-      <p>Choose card, UPI, netbanking, wallet, or another enabled method inside Razorpay.</p>
-    <?php endif ?>
+    <button id="pay" type="button" class="gateway-button razorpay-button"><span>R</span> Pay securely with Razorpay</button>
+    <p>Choose card, UPI, netbanking, wallet, or another enabled method inside Razorpay.</p>
     <p id="payment-message" role="status" aria-live="polite"></p>
     <a class="change-payment" href="<?= base_url('checkout') ?>">← Change payment method</a>
   </div>
@@ -98,10 +93,6 @@
         theme: { color: '#155d45' },
         retry: { enabled: true }
       };
-
-      <?php if($paymentMethod==='gpay'): ?>
-      options.config = { display: { blocks: { gpay: { name: 'Pay with Google Pay', instruments: [{ method: 'upi', flows: ['intent'], apps: ['google_pay'] }] } }, sequence: ['block.gpay', 'upi'], preferences: { show_default_blocks: true } } };
-      <?php endif ?>
 
       const checkout = new Razorpay(options);
       checkout.on('payment.failed', response => {

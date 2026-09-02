@@ -226,8 +226,8 @@ html { scroll-padding-top: 92px; }
 @media (max-width: 560px) {
   .site-header.pick-nav { grid-template-columns: 44px 1fr auto; padding-inline: 8px; }
   .header-logo { width: 102px; height: 58px; }
-  .pick-nav .header-actions { gap: 0; }
-  .header-search-form { width: 33px; }
+  .pick-nav .header-actions { gap: 6px; padding-right: 3px; }
+  .header-search-form { width: 34px; }
   .header-search-form button,
   .header-icon { width: 32px; height: 40px; }
   .header-icon svg,
@@ -269,6 +269,18 @@ html { scroll-padding-top: 92px; }
   .premium-footer .footer-directory h3 { font-size: 15px; }
   .premium-footer .footer-directory a,
   .premium-footer .footer-directory p { font-size: 12px; overflow-wrap: anywhere; }
+}
+
+@media (max-width: 380px) {
+  .site-header.pick-nav { padding-inline: 6px; }
+  .header-logo { width: 88px; }
+  .pick-nav .header-actions { gap: 3px; padding-right: 0; }
+  .header-search-form,
+  .header-search-form button,
+  .header-icon,
+  .pick-nav .cart-trigger { width: 30px; }
+  .header-icon svg,
+  .header-search-form .search-icon svg { width: 22px; height: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

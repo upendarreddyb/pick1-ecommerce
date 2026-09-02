@@ -40,6 +40,7 @@ $routes->group('admin', static function ($routes) {
 $routes->group('admin', ['filter' => 'adminAuth'], static function ($routes) {
     $routes->get('/', 'Admin\\Dashboard::index');
     $routes->get('order-notifications', 'Admin\\Dashboard::orderNotifications');
+    $routes->get('order-notifications/count', 'Admin\\Dashboard::orderNotificationCount');
     $routes->match(['GET', 'POST'], 'password', 'Admin\\Auth::password');
     $routes->resource('products', ['controller' => 'Admin\\Products']);
     $routes->resource('categories', ['controller' => 'Admin\\Categories']);
