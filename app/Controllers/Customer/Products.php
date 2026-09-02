@@ -29,10 +29,10 @@ class Products extends BaseController
         $rows = $products->where('status', 'active')->orderBy('id', 'DESC')->paginate(12);
         $galleryModel = new ProductImageModel();
         foreach ($rows as &$row) {
-            $row['gallery'] = $galleryModel
+            $row['gallery'] = ProductImageModel::onlyExisting($galleryModel
                 ->where('product_id', (int) $row['id'])
                 ->orderBy('sort_order', 'ASC')
-                ->findAll();
+                ->findAll());
         }
         unset($row);
 
@@ -67,10 +67,10 @@ class Products extends BaseController
             ->findAll(4);
         $relatedGalleryModel = new ProductImageModel();
         foreach ($relatedProducts as &$relatedProduct) {
-            $relatedProduct['gallery'] = $relatedGalleryModel
+            $relatedProduct['gallery'] = ProductImageModel::onlyExisting($relatedGalleryModel
                 ->where('product_id', (int) $relatedProduct['id'])
                 ->orderBy('sort_order', 'ASC')
-                ->findAll();
+                ->findAll());
         }
         unset($relatedProduct);
         $reviewsModel = new ProductReviewModel();
@@ -117,10 +117,10 @@ class Products extends BaseController
                 'currentReview' => $currentReview,
                 'relatedProducts' => $relatedProducts,
                 'cartQuantities' => $cartQuantities,
-                'gallery' => (new ProductImageModel())
+                'gallery' => ProductImageModel::onlyExisting((new ProductImageModel())
                     ->where('product_id', (int) $product['id'])
                     ->orderBy('sort_order', 'ASC')
-                    ->findAll(),
+                    ->findAll()),
             ]));
     }
 }

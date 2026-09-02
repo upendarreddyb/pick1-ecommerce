@@ -25,7 +25,7 @@ class Home extends BaseController
                     ->orderBy('sort_order', 'ASC')
                     ->findAll();
 
-                foreach ($galleryRows as $galleryImage) {
+                foreach (ProductImageModel::onlyExisting($galleryRows) as $galleryImage) {
                     $galleryByProduct[(int) $galleryImage['product_id']][] = $galleryImage;
                 }
             }

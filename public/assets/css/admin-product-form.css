@@ -140,6 +140,21 @@
   background: #fff;
 }
 
+.existing-gallery-item > .missing-gallery-image {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  padding: 16px;
+  color: var(--red);
+  text-align: center;
+  white-space: normal;
+  background: #fff5f3;
+}
+
+.missing-gallery-image small {
+  color: var(--muted);
+}
+
 .existing-gallery-item > span,
 .new-gallery-preview figcaption {
   display: block;

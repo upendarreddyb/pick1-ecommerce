@@ -5,7 +5,7 @@
 <?= $this->section('content') ?>
 <?php
 $productImages = [];
-if (! empty($product['image'])) {
+if (! empty($product['image']) && is_file(FCPATH . 'uploads/products/' . basename($product['image']))) {
     $productImages[] = [
         'url' => base_url('uploads/products/' . rawurlencode(basename($product['image']))),
         'alt' => $product['name'] . ' main image',

@@ -1,11 +1,14 @@
 <?php
 $cardImages = [];
 $cardImageLoading = 'eager';
-if (! empty($p['image'])) {
+if (! empty($p['image']) && is_file(FCPATH . 'uploads/products/' . basename($p['image']))) {
     $cardImages[] = base_url('uploads/products/' . rawurlencode(basename($p['image'])));
 }
 foreach ($p['gallery'] ?? [] as $galleryImage) {
-    $cardImages[] = base_url('uploads/products/' . rawurlencode(basename($galleryImage['image'])));
+    $galleryFilename = basename((string) ($galleryImage['image'] ?? ''));
+    if ($galleryFilename !== '' && is_file(FCPATH . 'uploads/products/' . $galleryFilename)) {
+        $cardImages[] = base_url('uploads/products/' . rawurlencode($galleryFilename));
+    }
 }
 ?>
 <article class="product-card pick-product" data-product-card="<?= $p['id'] ?>">

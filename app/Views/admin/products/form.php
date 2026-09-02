@@ -15,13 +15,14 @@
 
   <div class="wide product-image-field">
     <div class="field-heading">
-      <div><strong>Product image</strong><small><?= ! empty($row['image']) ? 'Current image' : 'No image uploaded yet' ?></small></div>
-      <?php if (! empty($row['image'])): ?><span class="image-status">Uploaded</span><?php endif ?>
+      <?php $hasCurrentImage = ! empty($row['image']) && is_file(FCPATH . 'uploads/products/' . basename($row['image'])); ?>
+      <div><strong>Product image</strong><small><?= $hasCurrentImage ? 'Current image' : (! empty($row['image']) ? 'Image file is missing — please upload it again' : 'No image uploaded yet') ?></small></div>
+      <?php if ($hasCurrentImage): ?><span class="image-status">Uploaded</span><?php endif ?>
     </div>
 
     <div class="product-image-editor">
-      <div class="product-image-preview <?= empty($row['image']) ? 'is-empty' : '' ?>" id="product-image-preview">
-        <?php if (! empty($row['image'])): ?>
+      <div class="product-image-preview <?= ! $hasCurrentImage ? 'is-empty' : '' ?>" id="product-image-preview">
+        <?php if ($hasCurrentImage): ?>
           <img id="product-preview-image" src="<?= base_url('uploads/products/' . rawurlencode(basename($row['image']))) ?>" alt="<?= esc($row['name'] ?? 'Product') ?> image">
           <span id="product-preview-placeholder" hidden>No image</span>
         <?php else: ?>
@@ -48,8 +49,13 @@
     <?php if (! empty($gallery)): ?>
       <div class="existing-gallery">
         <?php foreach ($gallery as $galleryImage): ?>
+          <?php $galleryFileExists = is_file(FCPATH . 'uploads/products/' . basename((string) $galleryImage['image'])); ?>
           <label class="existing-gallery-item">
-            <img src="<?= base_url('uploads/products/' . rawurlencode(basename($galleryImage['image']))) ?>" alt="Additional product image">
+            <?php if ($galleryFileExists): ?>
+              <img src="<?= base_url('uploads/products/' . rawurlencode(basename($galleryImage['image']))) ?>" alt="Additional product image">
+            <?php else: ?>
+              <span class="missing-gallery-image">Image file missing<br><small>Remove and upload again</small></span>
+            <?php endif ?>
             <span><input class="remove-gallery-input" type="checkbox" name="remove_gallery[]" value="<?= (int) $galleryImage['id'] ?>"> Remove</span>
           </label>
         <?php endforeach ?>
