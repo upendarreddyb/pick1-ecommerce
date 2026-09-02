@@ -482,3 +482,6 @@ html {
 @keyframes pick1-benefit-scroll{to{transform:translateX(-50%)}}
 @media(max-width:600px){.pick1-benefit-group span{padding:14px 22px;font-size:13px}.pick1-benefit-group span::after{margin-left:22px}}
 @media(prefers-reduced-motion:reduce){.pick1-benefit-track{animation:none}.pick1-benefit-marquee{overflow-x:auto}}
+
+/* Prevent repeated email sign-in submissions */
+.auth-card form.is-submitting .button{gap:9px;opacity:.72;cursor:not-allowed;pointer-events:none}.auth-card form.is-submitting .button::before{content:"";width:14px;height:14px;border:2px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:login-submit-spin .7s linear infinite}@keyframes login-submit-spin{to{transform:rotate(360deg)}}
