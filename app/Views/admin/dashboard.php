@@ -6,7 +6,6 @@
   <article class="stat"><small>Pending orders</small><strong><?= number_format($stats['pending']) ?></strong><p>Awaiting action</p></article>
   <article class="stat"><small>Active catalog</small><strong><?= number_format($stats['products']) ?></strong><p>Products in your store</p></article>
   <a class="stat stat-notifications" href="<?= base_url('admin/order-notifications') ?>">
-    <span class="stat-notification-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg></span>
     <?php if ($unreadOrderCount > 0): ?><span class="stat-alert-badge"><?= $unreadOrderCount > 99 ? '99+' : $unreadOrderCount ?></span><?php endif ?>
     <small>Notifications</small><strong><?= number_format($unreadOrderCount) ?></strong><p><?= $unreadOrderCount > 0 ? 'New orders — click to view' : 'No new order notifications' ?></p>
   </a>
