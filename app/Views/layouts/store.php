@@ -32,6 +32,7 @@
       <a href="<?= base_url('products') ?>">Shop</a>
       <a href="<?= base_url('bulk-orders') ?>">Bulk Orders</a>
       <a href="<?= base_url('contact') ?>">Contact Us</a>
+      <?php if(session('customer_id')): ?><a class="mobile-account-nav" href="<?= base_url('orders') ?>">My Orders</a><?php endif ?>
     </nav>
     <div class="store-nav-overlay" aria-hidden="true"></div>
     <div class="header-actions">

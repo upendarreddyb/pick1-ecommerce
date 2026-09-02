@@ -139,6 +139,7 @@ html { scroll-padding-top: 92px; }
 .about-pick1-image { min-height: 620px; }
 .about-image-pending { display: grid; place-items: center; background: linear-gradient(145deg, #dcebd8, #f0e6c8); color: #155b3d; text-align: center; text-transform: uppercase; letter-spacing: .14em; }
 .store-nav-overlay { display: none; }
+.mobile-account-nav { display: none; }
 @media (max-width: 1050px) {
   .header-search-form { width: 145px; }
   .pick-nav nav { gap: 20px; }
@@ -189,6 +190,7 @@ html { scroll-padding-top: 92px; }
   .pick-nav nav.open { transform: translateX(0); visibility: visible; pointer-events: auto; }
   .pick-nav nav a { width: 100%; padding: 17px 8px; border-bottom: 1px solid rgba(255,255,255,.12); color: #fff; font-size: 15px; }
   .pick-nav nav a:first-child { border-bottom: 1px solid rgba(255,255,255,.12); }
+  .pick-nav nav .mobile-account-nav { display: block; color: #e8ad2f; font-weight: 600; }
   .pick-nav nav a::after { display: none; }
   .store-nav-overlay {
     display: block;
