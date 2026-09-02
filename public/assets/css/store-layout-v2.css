@@ -67,14 +67,24 @@ html { scroll-padding-top: 92px; }
 .collection-grid .product-card {
   overflow: hidden;
   border: 1px solid rgba(23, 32, 25, .16);
-  border-radius: 5px;
+  border-radius: 14px;
   background: #fff;
 }
+.numae-products .card-thumbnails,
+.collection-grid .card-thumbnails { gap: 4px; padding: 6px 8px 0; }
+.numae-products .card-thumbnail,
+.collection-grid .card-thumbnail { width: 42px; height: 42px; flex-basis: 42px; border-radius: 7px; }
+.numae-products .product-meta,
+.collection-grid .product-meta { min-height: 0; padding: 10px 12px 8px; }
+.numae-products .product-meta h3,
+.collection-grid .product-meta h3 { margin-bottom: 4px; }
+.numae-products .quantity-stepper,
+.collection-grid .quantity-stepper { height: 40px; margin: 0 10px 10px; }
 .collection-page { padding-top: 32px; }
 .collection-page > h1 { margin-bottom: 18px; }
 .collection-toolbar { margin-bottom: 20px; }
 .numae-products .product-media,
-.collection-grid .product-media { height: 366px; }
+.collection-grid .product-media { height: auto !important; aspect-ratio: 1 / 1; }
 .numae-products .card-main-image,
 .collection-grid .card-main-image {
   width: 100%;
@@ -151,7 +161,7 @@ html { scroll-padding-top: 92px; }
   .collection-page > h1 { margin-bottom: 16px; }
   .collection-toolbar { margin-bottom: 18px; }
   .numae-products .product-media,
-  .collection-grid .product-media { height: 374px; }
+  .collection-grid .product-media { height: auto !important; }
   .product-detail { grid-template-columns: 1fr; max-width: 760px; padding: 28px; gap: 24px; }
   .product-gallery { width: min(78%, 440px); margin-inline: auto; }
   .detail-copy { width: min(100%, 620px); padding-top: 0; }
@@ -171,7 +181,13 @@ html { scroll-padding-top: 92px; }
   .collection-page > h1 { margin-bottom: 14px; }
   .collection-toolbar { margin-bottom: 16px; }
   .numae-products .product-media,
-  .collection-grid .product-media { height: 221px; }
+  .collection-grid .product-media { height: auto !important; }
+  .numae-products .card-thumbnail,
+  .collection-grid .card-thumbnail { width: 36px; height: 36px; flex-basis: 36px; }
+  .numae-products .product-meta,
+  .collection-grid .product-meta { padding: 8px 10px 7px; }
+  .numae-products .quantity-stepper,
+  .collection-grid .quantity-stepper { height: 38px; margin: 0 8px 8px; }
   .product-detail { padding: 18px 16px 45px; gap: 18px; }
   .product-gallery { width: min(80%, 300px); }
   .product-thumbnail { width: 52px; flex-basis: 52px; }
