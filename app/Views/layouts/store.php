@@ -25,14 +25,15 @@
     <a class="header-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home">
       <img src="<?= base_url('assets/images/pick1-logo.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="360" height="186" decoding="async">
     </a>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
-    <nav aria-label="Main navigation">
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="store-navigation"><span></span><span></span><span></span></button>
+    <nav id="store-navigation" aria-label="Main navigation">
       <a href="<?= base_url('/') ?>">Home</a>
       <a href="<?= base_url('about') ?>">About</a>
       <a href="<?= base_url('products') ?>">Shop</a>
       <a href="<?= base_url('bulk-orders') ?>">Bulk Orders</a>
       <a href="<?= base_url('contact') ?>">Contact Us</a>
     </nav>
+    <div class="store-nav-overlay" aria-hidden="true"></div>
     <div class="header-actions">
       <form class="header-search-form" action="<?= base_url('products') ?>" method="get" role="search">
         <label class="sr-only" for="header-product-search">Search products</label>

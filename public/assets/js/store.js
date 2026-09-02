@@ -21,10 +21,22 @@
   document.querySelector('.cart-trigger')?.addEventListener('click', openDrawer);
   document.querySelector('.drawer-close')?.addEventListener('click', closeDrawer);
   scrim?.addEventListener('click', closeDrawer);
-  document.querySelector('.menu-toggle')?.addEventListener('click', event => {
-    const nav = document.querySelector('.site-header nav');
-    nav?.classList.toggle('open');
-    event.currentTarget.setAttribute('aria-expanded', nav?.classList.contains('open') ? 'true' : 'false');
+  const menuButton = document.querySelector('.menu-toggle');
+  const navigation = document.querySelector('.site-header nav');
+  const navigationOverlay = document.querySelector('.store-nav-overlay');
+  const setMenuOpen = open => {
+    navigation?.classList.toggle('open', open);
+    navigationOverlay?.classList.toggle('open', open);
+    menuButton?.classList.toggle('open', open);
+    menuButton?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuButton?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('store-menu-open', open);
+  };
+  menuButton?.addEventListener('click', () => setMenuOpen(!navigation?.classList.contains('open')));
+  navigationOverlay?.addEventListener('click', () => setMenuOpen(false));
+  navigation?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setMenuOpen(false);
   });
 
   document.addEventListener('click', event => {
