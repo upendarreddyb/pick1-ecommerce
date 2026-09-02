@@ -11,6 +11,9 @@ $placedAt = strtotime((string) ($order['created_at'] ?? 'now')) ?: time();
 $updatedAt = strtotime((string) ($order['updated_at'] ?? '')) ?: $placedAt;
 $estimatedAt = strtotime('+7 days', $placedAt);
 $publicOrderNumber = order_number($order);
+$whatsAppUrl = 'https://wa.me/919703255444?text=' . rawurlencode(
+    'Hello Pick1, my order ' . $publicOrderNumber . ' is confirmed. Please share updates for this order on WhatsApp.'
+);
 $statusDetails = [
     'pending'    => ['Order placed', 'We have received your order and are waiting for payment confirmation.', 0],
     'processing' => ['Preparing your order', 'Your payment is confirmed and your Pick1 order is being packed.', 0],
@@ -66,6 +69,11 @@ $steps = [
 
         <?php if ($status !== 'cancelled'): ?>
           <p class="order-estimate">Estimated delivery by <strong><?= date('D, d M', $estimatedAt) ?></strong></p>
+          <a class="order-whatsapp-confirmation" href="<?= esc($whatsAppUrl) ?>" target="_blank" rel="noopener">
+            <span aria-hidden="true">✓</span>
+            <span><strong>Order confirmation on WhatsApp</strong><small>Tap to receive updates for <?= esc($publicOrderNumber) ?></small></span>
+            <b aria-hidden="true">›</b>
+          </a>
           <ol class="order-timeline" aria-label="Order delivery progress">
             <?php foreach ($steps as $index => [$label, $date]): ?>
               <li class="<?= $index <= $completedStep ? 'is-complete' : '' ?> <?= $index === $completedStep ? 'is-current' : '' ?>">
@@ -116,7 +124,7 @@ $steps = [
         </dl>
       </section>
 
-      <a class="order-support-card" href="<?= base_url('contact') ?>"><span>Need help with this order?</span><strong>Contact Pick1 support →</strong></a>
+      <a class="order-support-card" href="<?= esc($whatsAppUrl) ?>" target="_blank" rel="noopener"><span>Need help with this order?</span><strong>Chat with Pick1 on WhatsApp →</strong></a>
     </aside>
   </div>
 </section>
