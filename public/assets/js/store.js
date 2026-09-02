@@ -87,7 +87,7 @@
   if (reduceMotion) return;
 
   const revealTargets = document.querySelectorAll(
-    'main > section, .product-card, .why-pick1-grid article, .customer-review'
+    'main > section:not(.orders-page):not(.order-detail-page), .product-card, .why-pick1-grid article, .customer-review'
   );
   revealTargets.forEach((element, index) => {
     element.classList.add('reveal-section');

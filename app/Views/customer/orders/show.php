@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/store') ?>
 
 <?= $this->section('head') ?>
-<style><?= file_get_contents(FCPATH . 'assets/css/order-details.css') ?></style>
+<link rel="stylesheet" href="<?= base_url('assets/css/order-details.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

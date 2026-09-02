@@ -1,5 +1,5 @@
 <?= $this->extend('layouts/store') ?>
-<?= $this->section('head') ?><style><?= file_get_contents(FCPATH . 'assets/css/order-details.css') ?></style><?= $this->endSection() ?>
+<?= $this->section('head') ?><link rel="stylesheet" href="<?= base_url('assets/css/order-details.css') ?>"><?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <section class="orders-page">
   <header><p class="eyebrow">Account</p><h1>Your orders</h1><p>Track deliveries, review purchases, and get support.</p></header>

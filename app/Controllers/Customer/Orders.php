@@ -15,9 +15,10 @@ class Orders extends BaseController
         return view('customer/orders/index', [
             'title'  => 'Your orders',
             'orders' => (new OrderModel())
+                ->select('id, total_amount, status, created_at')
                 ->where('user_id', session('customer_id'))
                 ->orderBy('id', 'DESC')
-                ->findAll(),
+                ->findAll(30),
         ]);
     }
 
