@@ -146,7 +146,7 @@ class Checkout extends BaseController
             } else {
                 $gatewayOrder = (new RazorpayGateway())->createOrder(
                     (float) $order['total_amount'],
-                    'order_' . $order['id'],
+                    order_number($order),
                 );
 
                 $orders->update($order['id'], ['gateway_order_id' => $gatewayOrder['id']]);

@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <section class="payment-review">
   <div class="payment-review-card">
-    <p class="checkout-kicker">Order #<?= $order['id'] ?></p>
+    <p class="checkout-kicker">Order <?= esc(order_number($order)) ?></p>
     <h1>Review and pay</h1>
     <div class="payment-mini-items"><?php foreach($items as $item): ?><div><span><?= esc($item['name']) ?> × <?= $item['quantity'] ?></span><strong>₹<?= number_format(($item['sale_price']?:$item['price'])*$item['quantity'],2) ?></strong></div><?php endforeach ?></div>
     <div class="payment-due"><span>Total payable</span><strong>₹<?= number_format($order['total_amount'],2) ?></strong></div>
@@ -25,6 +25,7 @@
   const payButton = document.querySelector('#pay');
   const message = document.querySelector('#payment-message');
   const internalOrderId = <?= json_encode((int) $order['id']) ?>;
+  const publicOrderId = <?= json_encode(order_number($order)) ?>;
   let csrfName = <?= json_encode(csrf_token()) ?>;
   let csrfHash = <?= json_encode(csrf_hash()) ?>;
 
@@ -70,7 +71,7 @@
         amount: gateway.amount,
         currency: gateway.currency,
         name: 'Pick1',
-        description: 'Order #' + internalOrderId,
+        description: 'Order ' + publicOrderId,
         order_id: gateway.order_id,
         prefill: <?= json_encode($prefill, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
         handler: async response => {

@@ -1,4 +1,53 @@
 <?php
+
 namespace App\Controllers\Customer;
-use App\Controllers\BaseController; use App\Models\{OrderModel,OrderItemModel};
-class Orders extends BaseController { public function index(){return view('customer/orders/index',['title'=>'Your orders','orders'=>(new OrderModel())->where('user_id',session('customer_id'))->orderBy('id','DESC')->findAll()]);} public function show($id){$o=(new OrderModel())->where(['id'=>$id,'user_id'=>session('customer_id')])->first();if(!$o)throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();return view('customer/orders/show',['title'=>'Order #'.$id,'order'=>$o,'items'=>(new OrderItemModel())->where('order_id',$id)->findAll()]);}}
+
+use App\Controllers\BaseController;
+use App\Models\AddressModel;
+use App\Models\OrderItemModel;
+use App\Models\OrderModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
+
+class Orders extends BaseController
+{
+    public function index()
+    {
+        return view('customer/orders/index', [
+            'title'  => 'Your orders',
+            'orders' => (new OrderModel())
+                ->where('user_id', session('customer_id'))
+                ->orderBy('id', 'DESC')
+                ->findAll(),
+        ]);
+    }
+
+    public function show($id)
+    {
+        $order = (new OrderModel())->where([
+            'id'      => (int) $id,
+            'user_id' => session('customer_id'),
+        ])->first();
+
+        if (! $order) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $items = (new OrderItemModel())
+            ->select('order_items.*, products.image AS product_image, products.slug AS product_slug')
+            ->join('products', 'products.id = order_items.product_id', 'left')
+            ->where('order_items.order_id', (int) $id)
+            ->findAll();
+
+        $address = (new AddressModel())->where([
+            'id'      => (int) $order['address_id'],
+            'user_id' => session('customer_id'),
+        ])->first();
+
+        return view('customer/orders/show', [
+            'title'   => 'Order ' . order_number($order),
+            'order'   => $order,
+            'items'   => $items,
+            'address' => $address,
+        ]);
+    }
+}
