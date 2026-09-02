@@ -11,8 +11,15 @@ $placedAt = strtotime((string) ($order['created_at'] ?? 'now')) ?: time();
 $updatedAt = strtotime((string) ($order['updated_at'] ?? '')) ?: $placedAt;
 $estimatedAt = strtotime('+7 days', $placedAt);
 $publicOrderNumber = order_number($order);
+$viewOrderUrl = base_url('orders/' . $order['id']);
 $whatsAppUrl = 'https://wa.me/919703255444?text=' . rawurlencode(
-    'Hello Pick1, my order ' . $publicOrderNumber . ' is confirmed. Please share updates for this order on WhatsApp.'
+    "Hello Pick1,\n\n"
+    . "ORDER CONFIRMATION\n"
+    . 'Order ID: ' . $publicOrderNumber . "\n"
+    . 'Payment: ' . ucfirst((string) $order['payment_status']) . "\n"
+    . 'Amount: ₹' . number_format((float) $order['total_amount'], 2) . "\n"
+    . 'View order: ' . $viewOrderUrl . "\n\n"
+    . 'Please send delivery updates for this order on WhatsApp.'
 );
 $statusDetails = [
     'pending'    => ['Order placed', 'We have received your order and are waiting for payment confirmation.', 0],
@@ -71,7 +78,7 @@ $steps = [
           <p class="order-estimate">Estimated delivery by <strong><?= date('D, d M', $estimatedAt) ?></strong></p>
           <a class="order-whatsapp-confirmation" href="<?= esc($whatsAppUrl) ?>" target="_blank" rel="noopener">
             <span aria-hidden="true">✓</span>
-            <span><strong>Order confirmation on WhatsApp</strong><small>Tap to receive updates for <?= esc($publicOrderNumber) ?></small></span>
+            <span><strong>Send confirmation to WhatsApp</strong><small>Free · tap here, then press Send for <?= esc($publicOrderNumber) ?></small></span>
             <b aria-hidden="true">›</b>
           </a>
           <ol class="order-timeline" aria-label="Order delivery progress">
