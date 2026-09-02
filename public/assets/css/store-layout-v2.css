@@ -63,6 +63,13 @@ html { scroll-padding-top: 92px; }
 .numae-products .product-grid,
 .collection-grid { width: 85%; margin-inline: auto; }
 .collection-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.numae-products .product-card,
+.collection-grid .product-card {
+  overflow: hidden;
+  border: 1px solid rgba(23, 32, 25, .16);
+  border-radius: 5px;
+  background: #fff;
+}
 .collection-page { padding-top: 32px; }
 .collection-page > h1 { margin-bottom: 18px; }
 .collection-toolbar { margin-bottom: 20px; }
