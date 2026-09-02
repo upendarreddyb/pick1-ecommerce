@@ -20,11 +20,12 @@ if (strlen($customerWhatsAppNumber) === 10) {
     $customerWhatsAppNumber = '91' . $customerWhatsAppNumber;
 }
 $hasCustomerWhatsApp = (bool) preg_match('/^[1-9][0-9]{9,14}$/', $customerWhatsAppNumber);
-$confirmationMessage = "PICK1 ORDER CONFIRMATION\n\n"
-    . 'Order ID: ' . $publicOrderNumber . "\n"
-    . 'Payment: ' . ucfirst((string) $order['payment_status']) . "\n"
+$confirmationMessage = 'Hello ' . (string) ($address['full_name'] ?? 'Customer') . ",\n\n"
+    . 'Your Pick1 order ' . $publicOrderNumber . " is confirmed.\n"
+    . 'Payment: ' . ucfirst((string) $order['payment_method']) . ' (' . ucfirst((string) $order['payment_status']) . ")\n"
     . 'Amount: ₹' . number_format((float) $order['total_amount'], 2) . "\n"
-    . 'View order: ' . $viewOrderUrl;
+    . 'View your order: ' . $viewOrderUrl . "\n\n"
+    . 'Thank you for shopping with Pick1.';
 $customerWhatsAppUrl = $hasCustomerWhatsApp
     ? 'https://wa.me/' . $customerWhatsAppNumber . '?text=' . rawurlencode($confirmationMessage)
     : null;

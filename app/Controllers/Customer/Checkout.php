@@ -5,6 +5,7 @@ namespace App\Controllers\Customer;
 use App\Controllers\BaseController;
 use App\Libraries\Cart;
 use App\Libraries\PaymentGateway\RazorpayGateway;
+use App\Libraries\WhatsAppCloudApi;
 use App\Models\AddressModel;
 use App\Models\OrderItemModel;
 use App\Models\OrderModel;
@@ -276,6 +277,14 @@ class Checkout extends BaseController
                 'success' => false,
                 'message' => 'Payment was verified but could not be saved. Please contact support.',
             ]);
+        }
+
+        // Payment success must not depend on the external messaging service.
+        // Any WhatsApp failure is logged by the client and the checkout proceeds.
+        $confirmedOrder = $orders->find($order['id']);
+        $deliveryAddress = (new AddressModel())->find((int) $order['address_id']);
+        if ($confirmedOrder && $deliveryAddress) {
+            (new WhatsAppCloudApi())->sendOrderConfirmation($confirmedOrder, $deliveryAddress);
         }
 
         (new Cart())->clear();
