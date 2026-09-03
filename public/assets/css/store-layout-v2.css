@@ -65,11 +65,14 @@ html { scroll-padding-top: 92px; }
 .collection-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .numae-products .product-card,
 .collection-grid .product-card {
+  position: relative;
   overflow: hidden;
   border: 1px solid rgba(23, 32, 25, .16);
   border-radius: 14px;
   background: #fff;
 }
+.numae-products .sale,
+.collection-grid .sale { top: 0; left: 0; border-radius: 13px 0 9px 0; }
 .numae-products .card-thumbnails,
 .collection-grid .card-thumbnails { gap: 4px; padding: 6px 8px 0; }
 .numae-products .card-thumbnail,

@@ -62,6 +62,7 @@
 .order-support-card span{font-size:12px;opacity:.8}
 .order-support-card strong{font-size:14px}
 .orders-page{max-width:1100px;min-height:560px;margin:0 auto;padding:68px 24px 100px}
+.orders-page,.order-detail-page,.orders-page.reveal-section,.order-detail-page.reveal-section{opacity:1!important;visibility:visible!important;transform:none!important;transition:none!important}
 .orders-page>header{margin-bottom:30px;text-align:left}
 .orders-page>header h1{margin:7px 0 8px;font:600 clamp(40px,5vw,64px)/1.05 'Playfair Display',serif}
 .orders-page>header>p:last-child{margin:0;color:#6e726b}
