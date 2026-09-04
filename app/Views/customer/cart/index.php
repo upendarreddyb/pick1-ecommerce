@@ -52,6 +52,8 @@
       <strong data-cart-shipping class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
       <span data-cart-discount-label <?= $discount <= 0 ? 'hidden' : '' ?>>Coupon discount<?= $couponCode ? ' (' . esc($couponCode) . ')' : '' ?></span>
       <strong data-cart-discount <?= $discount <= 0 ? 'hidden' : '' ?>>−₹<?= number_format($discount, 2) ?></strong>
+      <span>GST (4.4%) <small>included</small></span>
+      <strong data-cart-gst>₹<?= number_format($gstAmount, 2) ?></strong>
       <span>Product prices</span>
       <strong>Include all charges</strong>
       <span class="cart-grand-label">Total</span>
@@ -81,6 +83,7 @@
   const shippingOutput = document.querySelector('[data-cart-shipping]');
   const discountLabel = document.querySelector('[data-cart-discount-label]');
   const discountOutput = document.querySelector('[data-cart-discount]');
+  const gstOutput = document.querySelector('[data-cart-gst]');
   const totalOutput = document.querySelector('[data-cart-total]');
   const couponForm = document.querySelector('.cart-coupon');
   const couponMessage = document.querySelector('[data-coupon-message]');
@@ -103,6 +106,7 @@
     discountOutput.hidden = !hasDiscount;
     discountLabel.textContent = 'Coupon discount' + (payload.couponCode ? ` (${payload.couponCode})` : '');
     discountOutput.textContent = '−' + money(payload.discount || 0);
+    gstOutput.textContent = money(payload.gstAmount || 0);
     totalOutput.textContent = money(payload.total);
     couponRemove.hidden = !payload.couponCode;
     couponApply.textContent = payload.couponCode ? 'Update' : 'Apply';
