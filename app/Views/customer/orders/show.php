@@ -13,7 +13,8 @@ $estimatedAt = strtotime('+7 days', $placedAt);
 $publicOrderNumber = order_number($order);
 $viewOrderUrl = base_url('orders/' . $order['id']);
 $shippingAmount = (float) ($order['shipping_amount'] ?? 0);
-$orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount);
+$discountAmount = (float) ($order['discount_amount'] ?? 0);
+$orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount + $discountAmount);
 $customerWhatsAppNumber = preg_replace('/\D+/', '', (string) ($address['phone'] ?? ''));
 if (strlen($customerWhatsAppNumber) === 11 && str_starts_with($customerWhatsAppNumber, '0')) {
     $customerWhatsAppNumber = substr($customerWhatsAppNumber, 1);
@@ -144,6 +145,7 @@ $steps = [
           <div><dt>Payment</dt><dd><?= esc(ucfirst((string) $order['payment_status'])) ?></dd></div>
           <div><dt>Method</dt><dd><?= esc(strtoupper((string) $order['payment_method'])) ?></dd></div>
           <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
+          <?php if ($discountAmount > 0): ?><div><dt>Coupon discount<?= ! empty($order['coupon_code']) ? ' (' . esc($order['coupon_code']) . ')' : '' ?></dt><dd>−₹<?= number_format($discountAmount, 2) ?></dd></div><?php endif ?>
           <div><dt>Shipping</dt><dd><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
           <div><dt>GST (4.4%)</dt><dd>Included</dd></div>
           <div class="order-summary-total"><dt>Total</dt><dd>₹<?= number_format((float) $order['total_amount'], 2) ?></dd></div>

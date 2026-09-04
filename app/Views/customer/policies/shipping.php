@@ -13,7 +13,7 @@
     <section><h2>Shipping Coverage</h2><p>We currently deliver orders across India.</p><p>If your location is not serviceable by our courier partners, our customer support team will contact you to discuss available alternatives or process a refund, if applicable.</p></section>
 
     <section><h2>Shipping Charges</h2>
-      <ul><li><strong>Standard shipping:</strong> ₹49 for orders below ₹350.</li><li><strong>Free shipping:</strong> Free standard shipping is available on orders of ₹350 or more.</li><li>Shipping offers may be modified or withdrawn without prior notice.</li></ul>
+      <ul><li><strong>Standard shipping:</strong> ₹49 for orders below ₹349.</li><li><strong>Free shipping:</strong> Free standard shipping is available on orders of ₹349 or more.</li><li>Shipping offers may be modified or withdrawn without prior notice.</li></ul>
     </section>
 
     <section><h2>Estimated Delivery Time</h2><p>Delivery timelines are estimates and may vary because of weather conditions, natural disasters, public holidays, courier delays, government restrictions, or accessibility of remote locations.</p></section>

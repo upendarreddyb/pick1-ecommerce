@@ -24,6 +24,7 @@ $routes->post('cart/add', 'Customer\\Cart::add');
 $routes->post('cart/change', 'Customer\\Cart::change');
 $routes->post('cart/update', 'Customer\\Cart::update');
 $routes->post('cart/remove', 'Customer\\Cart::remove');
+$routes->post('cart/coupon', 'Customer\\Cart::coupon');
 $routes->group('', ['filter' => 'customerAuth'], static function ($routes) {
     $routes->match(['GET', 'POST'], 'checkout', 'Customer\\Checkout::index');
     $routes->post('checkout/payment/verify', 'Customer\\Checkout::verifyPayment');
@@ -44,6 +45,10 @@ $routes->group('admin', ['filter' => 'adminAuth'], static function ($routes) {
     $routes->match(['GET', 'POST'], 'password', 'Admin\\Auth::password');
     $routes->resource('products', ['controller' => 'Admin\\Products']);
     $routes->resource('categories', ['controller' => 'Admin\\Categories']);
+    $routes->get('coupons', 'Admin\\Coupons::index');
+    $routes->post('coupons', 'Admin\\Coupons::create');
+    $routes->post('coupons/(:num)/status', 'Admin\\Coupons::status/$1');
+    $routes->post('coupons/(:num)/delete', 'Admin\\Coupons::delete/$1');
     $routes->resource('sliders', ['controller' => 'Admin\\Sliders']);
     $routes->resource('video-stories', ['controller' => 'Admin\\VideoStories']);
     $routes->get('orders', 'Admin\\Orders::index');

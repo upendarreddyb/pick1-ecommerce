@@ -18,12 +18,14 @@ class Checkout extends BaseController
         $cart = new Cart();
         $items = $cart->rows();
         if (! $items) return redirect()->to('/cart');
-        $subtotal = $cart->total($items);
-        $shipping = $cart->shipping($subtotal);
-        $payable = $subtotal + $shipping;
+        $pricing = $cart->pricing($items);
+        $subtotal = $pricing['subtotal'];
+        $discount = $pricing['discount'];
+        $shipping = $pricing['shipping'];
+        $payable = $pricing['total'];
 
         if ($this->request->getMethod() !== 'POST') {
-            return view('customer/checkout/index', ['title' => 'Checkout', 'items' => $items, 'subtotal' => $subtotal, 'shipping' => $shipping, 'total' => $payable]);
+            return view('customer/checkout/index', ['title' => 'Checkout', 'items' => $items] + $pricing);
         }
 
         $rules = [
@@ -40,7 +42,7 @@ class Checkout extends BaseController
         }
 
         $database = db_connect();
-        $this->ensureShippingAmountColumn($database);
+        $this->ensureOrderPricingColumns($database);
         $database->transBegin();
 
         try {
@@ -63,6 +65,8 @@ class Checkout extends BaseController
                 'address_id'  => $addressId,
                 'total_amount'=> $payable,
                 'shipping_amount' => $shipping,
+                'discount_amount' => $discount,
+                'coupon_code' => $pricing['couponCode'],
                 'payment_method' => $this->request->getPost('payment_method'),
             ], true);
 
@@ -311,10 +315,16 @@ class Checkout extends BaseController
         return $this->request->getPost();
     }
 
-    private function ensureShippingAmountColumn($database): void
+    private function ensureOrderPricingColumns($database): void
     {
         if (! $database->fieldExists('shipping_amount', 'orders')) {
             $database->query('ALTER TABLE orders ADD shipping_amount DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER total_amount');
+        }
+        if (! $database->fieldExists('discount_amount', 'orders')) {
+            $database->query('ALTER TABLE orders ADD discount_amount DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER shipping_amount');
+        }
+        if (! $database->fieldExists('coupon_code', 'orders')) {
+            $database->query('ALTER TABLE orders ADD coupon_code VARCHAR(50) NULL AFTER discount_amount');
         }
     }
 }

@@ -3,7 +3,8 @@
 <?= $this->section('content') ?>
 <?php
 $shippingAmount = (float) ($order['shipping_amount'] ?? 0);
-$orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount);
+$discountAmount = (float) ($order['discount_amount'] ?? 0);
+$orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount + $discountAmount);
 ?>
 <section class="payment-review">
   <div class="payment-review-card">
@@ -12,6 +13,7 @@ $orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount);
     <div class="payment-mini-items"><?php foreach($items as $item): ?><div><span><?= esc($item['name']) ?> × <?= $item['quantity'] ?></span><strong>₹<?= number_format(($item['sale_price']?:$item['price'])*$item['quantity'],2) ?></strong></div><?php endforeach ?></div>
     <dl class="payment-breakdown">
       <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
+      <?php if ($discountAmount > 0): ?><div><dt>Coupon discount<?= ! empty($order['coupon_code']) ? ' (' . esc($order['coupon_code']) . ')' : '' ?></dt><dd>−₹<?= number_format($discountAmount, 2) ?></dd></div><?php endif ?>
       <div><dt>Shipping</dt><dd class="<?= $shippingAmount > 0 ? '' : 'free' ?>"><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
       <div><dt>GST (4.4%)</dt><dd>Included</dd></div>
     </dl>

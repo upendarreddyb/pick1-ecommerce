@@ -8,6 +8,7 @@
   const syncResponse = payload => {
     if (payload.csrfHash) CSRF.hash = payload.csrfHash;
     document.querySelectorAll('[data-cart-count]').forEach(node => node.textContent = payload.count);
+    document.dispatchEvent(new CustomEvent('cart:updated', { detail: payload }));
   };
   const post = async (url, data) => {
     data.append(CSRF.name, CSRF.hash);
@@ -69,7 +70,6 @@
         stepper.querySelector('[data-delta="-1"]').disabled = payload.productQuantity < 1;
         stepper.querySelector('[data-delta="1"]').disabled = payload.productQuantity >= Number(stepper.dataset.stock);
         notify(payload.message);
-        if (document.querySelector('.cart-total')) window.location.reload();
       } catch (error) { notify(error.message); }
       finally { stepper.dataset.busy = 'false'; }
     });

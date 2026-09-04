@@ -5,7 +5,8 @@ $status = (string) $row['status'];
 $statusStep = ['pending'=>0, 'processing'=>0, 'shipped'=>1, 'out_for_delivery'=>2, 'delivered'=>3][$status] ?? 0;
 $statusOptions = ['pending'=>'Pending payment', 'processing'=>'Ordered', 'shipped'=>'Shipped', 'out_for_delivery'=>'Out for delivery', 'delivered'=>'Delivered', 'cancelled'=>'Cancelled'];
 $shippingAmount = (float) ($row['shipping_amount'] ?? 0);
-$orderSubtotal = max(0, (float) $row['total_amount'] - $shippingAmount);
+$discountAmount = (float) ($row['discount_amount'] ?? 0);
+$orderSubtotal = max(0, (float) $row['total_amount'] - $shippingAmount + $discountAmount);
 ?>
 <section class="admin-order-progress <?= $status === 'cancelled' ? 'is-cancelled' : '' ?>">
   <header><div><small>Delivery progress</small><h2><?= esc($statusOptions[$status] ?? ucfirst($status)) ?></h2></div><span><?= esc(order_number($row)) ?></span></header>
@@ -17,6 +18,7 @@ $orderSubtotal = max(0, (float) $row['total_amount'] - $shippingAmount);
   <h3>Order charges</h3>
   <dl>
     <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
+    <?php if ($discountAmount > 0): ?><div><dt>Coupon discount<?= ! empty($row['coupon_code']) ? ' (' . esc($row['coupon_code']) . ')' : '' ?></dt><dd>−₹<?= number_format($discountAmount, 2) ?></dd></div><?php endif ?>
     <div><dt>Shipping</dt><dd><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
     <div><dt>GST (4.4%)</dt><dd>Included in product prices</dd></div>
     <div><dt>Total</dt><dd><strong>₹<?= number_format((float) $row['total_amount'], 2) ?></strong></dd></div>

@@ -21,8 +21,8 @@
       <p>If your delivery location is not serviceable by our courier partners, our customer support team will contact you to discuss available alternatives or process a refund, if applicable.</p>
       <h3>Shipping Charges</h3>
       <ul>
-        <li>Standard Shipping: ₹49 for orders below ₹350.</li>
-        <li>Free Shipping: We offer FREE standard shipping on orders of ₹350 or more.</li>
+        <li>Standard Shipping: ₹49 for orders below ₹349.</li>
+        <li>Free Shipping: We offer FREE standard shipping on orders of ₹349 or more.</li>
       </ul>
       <p>Shipping offers may be modified or withdrawn without prior notice.</p>
       <h3>Estimated Delivery Time</h3>
