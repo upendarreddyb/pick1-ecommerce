@@ -27,7 +27,6 @@
         <div>
           <h3><a href="<?= base_url('products/' . $item['slug']) ?>"><?= esc($item['name']) ?></a></h3>
           <p>₹<?= number_format($unitPrice) ?></p>
-          <strong class="price-tax-note">Include all charges</strong>
         </div>
 
         <form method="post" action="<?= base_url('cart/update') ?>">
@@ -54,17 +53,15 @@
       <strong data-cart-discount <?= $discount <= 0 ? 'hidden' : '' ?>>−₹<?= number_format($discount, 2) ?></strong>
       <span>GST (4.4%) <small>included</small></span>
       <strong data-cart-gst>₹<?= number_format($gstAmount, 2) ?></strong>
-      <span>Product prices</span>
-      <strong>Include all charges</strong>
       <span class="cart-grand-label">Total</span>
       <strong class="cart-grand-value" data-cart-total>₹<?= number_format($total, 2) ?></strong>
       <a class="button dark" href="<?= base_url('checkout') ?>">Continue to checkout</a>
     </div>
     <form class="cart-coupon" method="post" action="<?= base_url('cart/coupon') ?>">
       <?= csrf_field() ?>
-      <label for="coupon-code">Coupon code</label>
-      <div><input id="coupon-code" name="code" maxlength="50" value="<?= esc($couponCode ?? '') ?>" placeholder="Enter coupon code"><button type="submit" data-apply-coupon><?= $couponCode ? 'Update' : 'Apply' ?></button><button type="button" data-remove-coupon <?= $couponCode ? '' : 'hidden' ?>>Remove</button></div>
-      <small data-coupon-message><?= $couponCode ? '10% discount applied.' : 'Enter an active coupon for 10% off.' ?></small>
+      <header><div><strong>Coupon code</strong><small data-coupon-message><?= $couponCode ? '10% discount applied.' : 'Enter an active coupon for 10% off.' ?></small></div><span>10% OFF</span></header>
+      <label class="sr-only" for="coupon-code">Coupon code</label>
+      <div class="coupon-entry"><input id="coupon-code" name="code" maxlength="50" value="<?= esc($couponCode ?? '') ?>" placeholder="Enter coupon code"><button type="submit" data-apply-coupon><?= $couponCode ? 'Update' : 'Apply' ?></button><button type="button" data-remove-coupon <?= $couponCode ? '' : 'hidden' ?>>Remove</button></div>
     </form>
   <?php endif ?>
 </section>
