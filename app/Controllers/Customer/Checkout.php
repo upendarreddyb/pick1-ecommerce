@@ -16,10 +16,14 @@ class Checkout extends BaseController
     public function index()
     {
         $cart = new Cart();
-        if (! $cart->rows()) return redirect()->to('/cart');
+        $items = $cart->rows();
+        if (! $items) return redirect()->to('/cart');
+        $subtotal = $cart->total($items);
+        $shipping = $cart->shipping($subtotal);
+        $payable = $subtotal + $shipping;
 
         if ($this->request->getMethod() !== 'POST') {
-            return view('customer/checkout/index', ['title' => 'Checkout', 'items' => $cart->rows(), 'total' => $cart->total()]);
+            return view('customer/checkout/index', ['title' => 'Checkout', 'items' => $items, 'subtotal' => $subtotal, 'shipping' => $shipping, 'total' => $payable]);
         }
 
         $rules = [
@@ -36,6 +40,7 @@ class Checkout extends BaseController
         }
 
         $database = db_connect();
+        $this->ensureShippingAmountColumn($database);
         $database->transBegin();
 
         try {
@@ -56,11 +61,12 @@ class Checkout extends BaseController
             $orderId = $orders->insert([
                 'user_id'     => session('customer_id'),
                 'address_id'  => $addressId,
-                'total_amount'=> $cart->total(),
+                'total_amount'=> $payable,
+                'shipping_amount' => $shipping,
                 'payment_method' => $this->request->getPost('payment_method'),
             ], true);
 
-            foreach ($cart->rows() as $row) {
+            foreach ($items as $row) {
                 (new OrderItemModel())->insert([
                     'order_id'          => $orderId,
                     'product_id'        => $row['product_id'],
@@ -84,7 +90,7 @@ class Checkout extends BaseController
             'title'   => 'Complete payment',
             'order'   => $orders->find($orderId),
             'key'     => env('RAZORPAY_KEY_ID'),
-            'items'   => $cart->rows(),
+            'items'   => $items,
             'paymentMethod' => $this->request->getPost('payment_method'),
             'prefill' => [
                 'name'    => (string) $this->request->getPost('full_name'),
@@ -303,5 +309,12 @@ class Checkout extends BaseController
         }
 
         return $this->request->getPost();
+    }
+
+    private function ensureShippingAmountColumn($database): void
+    {
+        if (! $database->fieldExists('shipping_amount', 'orders')) {
+            $database->query('ALTER TABLE orders ADD shipping_amount DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER total_amount');
+        }
     }
 }

@@ -21,8 +21,8 @@
       <p>If your delivery location is not serviceable by our courier partners, our customer support team will contact you to discuss available alternatives or process a refund, if applicable.</p>
       <h3>Shipping Charges</h3>
       <ul>
-        <li>Standard Shipping: Shipping charges are calculated automatically at checkout based on your delivery address.</li>
-        <li>Free Shipping: We offer FREE standard shipping on all prepaid orders above ₹499.</li>
+        <li>Standard Shipping: ₹49 for orders below ₹350.</li>
+        <li>Free Shipping: We offer FREE standard shipping on orders of ₹350 or more.</li>
       </ul>
       <p>Shipping offers may be modified or withdrawn without prior notice.</p>
       <h3>Estimated Delivery Time</h3>
@@ -124,7 +124,7 @@
       <p>Discontinue use immediately if irritation, discomfort, or any adverse reaction occurs.</p>
       <p>If you have any existing dental or medical conditions, please consult a qualified healthcare professional before use.</p>
       <h3>Section 4 – Pricing and Service Modifications</h3>
-      <p>All prices displayed on our website are in Indian Rupees (INR) and are inclusive of applicable GST, unless otherwise stated.</p>
+      <p>All prices displayed on our website are in Indian Rupees (INR) and are inclusive of GST at 4.4%, unless otherwise stated.</p>
       <p>We reserve the right to modify product prices, discontinue products, update website content, or suspend or discontinue any part of our services at any time without prior notice.</p>
       <h3>Section 5 – Order Acceptance</h3>
       <p>We reserve the right to refuse, cancel, or limit any order at our sole discretion. This may include orders suspected of fraudulent activity, unauthorized transactions, pricing errors, or unusual purchasing patterns.</p>

@@ -26,6 +26,7 @@
         <div>
           <h3><a href="<?= base_url('products/' . $item['slug']) ?>"><?= esc($item['name']) ?></a></h3>
           <p>₹<?= number_format($item['sale_price'] ?: $item['price']) ?></p>
+          <small class="price-tax-note">Inclusive of all taxes (GST 4.4%)</small>
         </div>
 
         <form method="post" action="<?= base_url('cart/update') ?>">
@@ -45,7 +46,13 @@
 
     <div class="cart-total">
       <span>Subtotal</span>
-      <strong>₹<?= number_format($total, 2) ?></strong>
+      <strong>₹<?= number_format($subtotal, 2) ?></strong>
+      <span>Shipping<?= $shipping > 0 ? ' (free on ₹350+)' : '' ?></span>
+      <strong class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
+      <span>GST (4.4%)</span>
+      <strong>Included</strong>
+      <span class="cart-grand-label">Total</span>
+      <strong class="cart-grand-value">₹<?= number_format($total, 2) ?></strong>
       <a class="button dark" href="<?= base_url('checkout') ?>">Continue to checkout</a>
     </div>
   <?php endif ?>

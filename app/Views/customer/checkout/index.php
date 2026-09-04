@@ -36,7 +36,12 @@
         </article>
       <?php endforeach ?>
     </div>
-    <dl class="summary-totals"><div><dt>Subtotal</dt><dd>₹<?= number_format($total,2) ?></dd></div><div><dt>Shipping</dt><dd class="free">Free</dd></div><div class="grand-total"><dt>Total</dt><dd><small>INR</small> ₹<?= number_format($total,2) ?></dd></div></dl>
+    <dl class="summary-totals">
+      <div><dt>Subtotal</dt><dd>₹<?= number_format($subtotal, 2) ?></dd></div>
+      <div><dt>Shipping</dt><dd class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></dd></div>
+      <div><dt>GST (4.4%)</dt><dd>Included</dd></div>
+      <div class="grand-total"><dt>Total</dt><dd><small>INR</small> ₹<?= number_format($total, 2) ?></dd></div>
+    </dl>
   </aside>
 </section>
 <?= $this->endSection() ?>

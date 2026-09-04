@@ -12,6 +12,8 @@ $updatedAt = strtotime((string) ($order['updated_at'] ?? '')) ?: $placedAt;
 $estimatedAt = strtotime('+7 days', $placedAt);
 $publicOrderNumber = order_number($order);
 $viewOrderUrl = base_url('orders/' . $order['id']);
+$shippingAmount = (float) ($order['shipping_amount'] ?? 0);
+$orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount);
 $customerWhatsAppNumber = preg_replace('/\D+/', '', (string) ($address['phone'] ?? ''));
 if (strlen($customerWhatsAppNumber) === 11 && str_starts_with($customerWhatsAppNumber, '0')) {
     $customerWhatsAppNumber = substr($customerWhatsAppNumber, 1);
@@ -23,6 +25,7 @@ $hasCustomerWhatsApp = (bool) preg_match('/^[1-9][0-9]{9,14}$/', $customerWhatsA
 $confirmationMessage = 'Hello ' . (string) ($address['full_name'] ?? 'Customer') . ",\n\n"
     . 'Your Pick1 order ' . $publicOrderNumber . " is confirmed.\n"
     . 'Payment: ' . ucfirst((string) $order['payment_method']) . ' (' . ucfirst((string) $order['payment_status']) . ")\n"
+    . 'Shipping: ' . ($shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free') . "\n"
     . 'Amount: ₹' . number_format((float) $order['total_amount'], 2) . "\n"
     . 'View your order: ' . $viewOrderUrl . "\n\n"
     . 'Thank you for shopping with Pick1.';
@@ -140,7 +143,9 @@ $steps = [
         <dl>
           <div><dt>Payment</dt><dd><?= esc(ucfirst((string) $order['payment_status'])) ?></dd></div>
           <div><dt>Method</dt><dd><?= esc(strtoupper((string) $order['payment_method'])) ?></dd></div>
-          <div><dt>Shipping</dt><dd>Free</dd></div>
+          <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
+          <div><dt>Shipping</dt><dd><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
+          <div><dt>GST (4.4%)</dt><dd>Included</dd></div>
           <div class="order-summary-total"><dt>Total</dt><dd>₹<?= number_format((float) $order['total_amount'], 2) ?></dd></div>
         </dl>
       </section>

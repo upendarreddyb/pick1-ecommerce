@@ -31,6 +31,6 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
     </div>
   <?php endif ?>
 
-  <div class="product-meta"><div><h3><a href="<?= base_url('products/' . $p['slug']) ?>"><?= esc($p['name']) ?></a></h3><p><?php if ($p['sale_price']): ?><s>₹<?= number_format($p['price']) ?></s> <?php endif ?><strong>₹<?= number_format($p['sale_price'] ?: $p['price']) ?></strong></p></div></div>
+  <div class="product-meta"><div><h3><a href="<?= base_url('products/' . $p['slug']) ?>"><?= esc($p['name']) ?></a></h3><p><?php if ($p['sale_price']): ?><s>₹<?= number_format($p['price']) ?></s> <?php endif ?><strong>₹<?= number_format($p['sale_price'] ?: $p['price']) ?></strong></p><small class="price-tax-note">Inclusive of GST 4.4%</small></div></div>
   <div class="quantity-stepper" data-product="<?= $p['id'] ?>" data-stock="<?= $p['stock'] ?>"><button type="button" data-delta="-1" aria-label="Remove one <?= esc($p['name']) ?>" <?= ($cartQuantity ?? 0) < 1 ? 'disabled' : '' ?>>−</button><output aria-live="polite"><?= (int) ($cartQuantity ?? 0) ?></output><button type="button" data-delta="1" aria-label="Add one <?= esc($p['name']) ?>" <?= $p['stock'] < 1 ? 'disabled' : '' ?>>+</button></div>
 </article>

@@ -17,7 +17,7 @@
       <ul><li>Use the toothpick gently and avoid excessive pressure on teeth or gums.</li><li>Keep out of reach of infants and small children because toothpicks may present a choking hazard.</li><li>Discontinue use if irritation, discomfort, or another adverse reaction occurs.</li><li>Consult a qualified healthcare professional before use if you have an existing dental or medical condition.</li></ul>
     </section>
 
-    <section><h2>4. Pricing and Service Modifications</h2><p>Prices are displayed in Indian Rupees and include applicable GST unless stated otherwise. We may change prices, discontinue products, update website content, or suspend any part of our services without prior notice.</p></section>
+    <section><h2>4. Pricing and Service Modifications</h2><p>Prices are displayed in Indian Rupees and include GST at 4.4% unless stated otherwise. We may change prices, discontinue products, update website content, or suspend any part of our services without prior notice.</p></section>
 
     <section><h2>5. Order Acceptance</h2><p>We may refuse, cancel, or limit an order at our discretion, including orders involving suspected fraud, unauthorized transactions, pricing errors, or unusual purchasing patterns. If an order is cancelled after payment, the applicable amount will be refunded through the original payment method.</p></section>
 
