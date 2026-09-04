@@ -69,7 +69,7 @@
 .detail-copy .detail-price{display:flex;align-items:baseline;gap:12px;margin:0 0 28px}
 .detail-price strong{font-size:42px;font-weight:500}
 .detail-price s{color:#777;font-size:18px}
-.price-tax-note{display:block;margin-top:4px;color:#747a73;font-size:10px;line-height:1.35}.detail-tax-note{margin:-21px 0 25px;color:#747a73;font-size:12px}.cart-total .free,.payment-breakdown .free{color:#2c7b48}.cart-grand-label,.cart-grand-value{border-top:1px solid var(--line);padding-top:15px;font-size:19px}.payment-breakdown{margin:0;padding:13px 0;border-bottom:1px solid #ddd}.payment-breakdown>div{display:flex;justify-content:space-between;padding:6px 0}.payment-breakdown dt,.payment-breakdown dd{margin:0}
+.price-tax-note{display:block;margin-top:4px;color:#747a73;font-size:10px;line-height:1.35}.detail-tax-note{display:block;margin:-21px 0 25px;color:#747a73;font-size:12px}.cart-total .free,.payment-breakdown .free{color:#2c7b48}.cart-grand-label,.cart-grand-value{border-top:1px solid var(--line);padding-top:15px;font-size:19px}.payment-breakdown{margin:0;padding:13px 0;border-bottom:1px solid #ddd}.payment-breakdown>div{display:flex;justify-content:space-between;padding:6px 0}.payment-breakdown dt,.payment-breakdown dd{margin:0}
 .detail-copy .add-form{display:block;margin:0}
 .product-add-button{width:100%;min-height:76px;margin:0;border:0;border-radius:17px;background:#111;color:#fff;font-size:23px;font-weight:500;gap:17px}
 .product-add-button svg{width:33px;height:33px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}

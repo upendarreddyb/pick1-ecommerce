@@ -27,7 +27,7 @@
         <div>
           <h3><a href="<?= base_url('products/' . $item['slug']) ?>"><?= esc($item['name']) ?></a></h3>
           <p>₹<?= number_format($unitPrice) ?></p>
-          <small class="price-tax-note">Includes all charges</small>
+          <strong class="price-tax-note">Include all charges</strong>
         </div>
 
         <form method="post" action="<?= base_url('cart/update') ?>">
