@@ -14,7 +14,8 @@
     </div>
   <?php else: ?>
     <?php foreach ($items as $item): ?>
-      <article class="cart-row">
+      <?php $unitPrice = (float) ($item['sale_price'] ?: $item['price']); ?>
+      <article class="cart-row" data-cart-price="<?= $unitPrice ?>">
         <a class="cart-thumb" href="<?= base_url('products/' . $item['slug']) ?>" aria-label="View <?= esc($item['name']) ?>">
           <?php if (! empty($item['image'])): ?>
             <img src="<?= base_url('uploads/products/' . rawurlencode(basename($item['image']))) ?>" alt="<?= esc($item['name']) ?>">
@@ -25,14 +26,14 @@
 
         <div>
           <h3><a href="<?= base_url('products/' . $item['slug']) ?>"><?= esc($item['name']) ?></a></h3>
-          <p>₹<?= number_format($item['sale_price'] ?: $item['price']) ?></p>
-          <small class="price-tax-note">Inclusive of all taxes (GST 4.4%)</small>
+          <p>₹<?= number_format($unitPrice) ?></p>
+          <small class="price-tax-note">Includes all charges</small>
         </div>
 
         <form method="post" action="<?= base_url('cart/update') ?>">
           <?= csrf_field() ?>
           <input type="hidden" name="id" value="<?= $item['id'] ?>">
-          <input name="quantity" type="number" min="1" max="<?= (int) $item['stock'] ?>" value="<?= (int) $item['quantity'] ?>">
+          <input class="cart-quantity" name="quantity" type="number" min="1" max="<?= (int) $item['stock'] ?>" value="<?= (int) $item['quantity'] ?>">
           <button>Update</button>
         </form>
 
@@ -46,13 +47,13 @@
 
     <div class="cart-total">
       <span>Subtotal</span>
-      <strong>₹<?= number_format($subtotal, 2) ?></strong>
-      <span>Shipping<?= $shipping > 0 ? ' (free on ₹350+)' : '' ?></span>
-      <strong class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
-      <span>GST (4.4%)</span>
-      <strong>Included</strong>
+      <strong data-cart-subtotal>₹<?= number_format($subtotal, 2) ?></strong>
+      <span data-cart-shipping-label>Shipping<?= $shipping > 0 ? ' (free on ₹350+)' : '' ?></span>
+      <strong data-cart-shipping class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
+      <span>Product prices</span>
+      <strong>Include all charges</strong>
       <span class="cart-grand-label">Total</span>
-      <strong class="cart-grand-value">₹<?= number_format($total, 2) ?></strong>
+      <strong class="cart-grand-value" data-cart-total>₹<?= number_format($total, 2) ?></strong>
       <a class="button dark" href="<?= base_url('checkout') ?>">Continue to checkout</a>
     </div>
   <?php endif ?>
@@ -63,4 +64,43 @@
   <div class="product-grid"><?php foreach ($recommendations as $p): ?><?= view('customer/products/_card', ['p' => $p, 'cartQuantity' => $cartQuantities[(int) $p['id']] ?? 0]) ?><?php endforeach ?></div>
 </section>
 <?php endif ?>
+<?= $this->endSection() ?>
+<?= $this->section('scripts') ?>
+<script>
+(() => {
+  const rows = [...document.querySelectorAll('[data-cart-price]')];
+  const subtotalOutput = document.querySelector('[data-cart-subtotal]');
+  const shippingLabel = document.querySelector('[data-cart-shipping-label]');
+  const shippingOutput = document.querySelector('[data-cart-shipping]');
+  const totalOutput = document.querySelector('[data-cart-total]');
+  if (!rows.length || !subtotalOutput || !shippingOutput || !totalOutput) return;
+
+  const money = value => '₹' + new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value);
+
+  const refreshTotals = () => {
+    const subtotal = rows.reduce((sum, row) => {
+      const input = row.querySelector('.cart-quantity');
+      const quantity = Math.max(1, Number(input?.value) || 1);
+      return sum + (Number(row.dataset.cartPrice) || 0) * quantity;
+    }, 0);
+    const shipping = subtotal > 0 && subtotal < 350 ? 49 : 0;
+    subtotalOutput.textContent = money(subtotal);
+    shippingLabel.textContent = shipping ? 'Shipping (free on ₹350+)' : 'Shipping';
+    shippingOutput.textContent = shipping ? money(shipping) : 'Free';
+    shippingOutput.classList.toggle('free', shipping === 0);
+    totalOutput.textContent = money(subtotal + shipping);
+  };
+
+  document.querySelectorAll('.cart-quantity').forEach(input => {
+    input.addEventListener('input', refreshTotals);
+    input.addEventListener('change', () => {
+      refreshTotals();
+      if (input.checkValidity()) input.form.requestSubmit();
+    });
+  });
+})();
+</script>
 <?= $this->endSection() ?>

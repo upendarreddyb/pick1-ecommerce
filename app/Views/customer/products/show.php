@@ -60,7 +60,7 @@ $showReviewSection = ! empty($reviews) || $canReview;
       <strong>₹<?= number_format($product['sale_price'] ?: $product['price']) ?></strong>
       <?php if ($product['sale_price']): ?><s>₹<?= number_format($product['price']) ?></s><?php endif ?>
     </p>
-    <p class="detail-tax-note">Inclusive of all taxes (GST 4.4%)</p>
+    <p class="detail-tax-note">Includes all charges</p>
     <div class="product-cart-controls">
       <div class="quantity-stepper product-detail-stepper" data-product="<?= $product['id'] ?>" data-stock="<?= (int) $product['stock'] ?>">
         <button type="button" data-delta="-1" aria-label="Remove one <?= esc($product['name']) ?>" <?= ($cartQuantity ?? 0) < 1 ? 'disabled' : '' ?>>−</button>
