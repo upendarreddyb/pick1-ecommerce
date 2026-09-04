@@ -49,6 +49,13 @@
       <strong data-cart-subtotal>₹<?= number_format($subtotal, 2) ?></strong>
       <span data-cart-shipping-label>Shipping<?= $shipping > 0 ? ' (free on ₹349+)' : '' ?></span>
       <strong data-cart-shipping class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
+      <form class="cart-coupon" method="post" action="<?= base_url('cart/coupon') ?>">
+        <?= csrf_field() ?>
+        <p>If you have a coupon code, please apply it below</p>
+        <label class="sr-only" for="coupon-code">Coupon code</label>
+        <div class="coupon-entry"><input id="coupon-code" name="code" maxlength="50" value="<?= esc($couponCode ?? '') ?>" placeholder="Coupon code"><button type="submit" data-apply-coupon><?= $couponCode ? 'Update coupon' : 'Apply coupon' ?></button><button type="button" data-remove-coupon <?= $couponCode ? '' : 'hidden' ?>>Remove</button></div>
+        <small data-coupon-message><?= $couponCode ? '10% discount applied.' : '' ?></small>
+      </form>
       <span data-cart-discount-label <?= $discount <= 0 ? 'hidden' : '' ?>>Coupon discount<?= $couponCode ? ' (' . esc($couponCode) . ')' : '' ?></span>
       <strong data-cart-discount <?= $discount <= 0 ? 'hidden' : '' ?>>−₹<?= number_format($discount, 2) ?></strong>
       <span>GST (4.4%) <small>included</small></span>
@@ -57,12 +64,6 @@
       <strong class="cart-grand-value" data-cart-total>₹<?= number_format($total, 2) ?></strong>
       <a class="button dark" href="<?= base_url('checkout') ?>">Continue to checkout</a>
     </div>
-    <form class="cart-coupon" method="post" action="<?= base_url('cart/coupon') ?>">
-      <?= csrf_field() ?>
-      <header><div><strong>Coupon code</strong><small data-coupon-message><?= $couponCode ? '10% discount applied.' : 'Enter an active coupon for 10% off.' ?></small></div><span>10% OFF</span></header>
-      <label class="sr-only" for="coupon-code">Coupon code</label>
-      <div class="coupon-entry"><input id="coupon-code" name="code" maxlength="50" value="<?= esc($couponCode ?? '') ?>" placeholder="Enter coupon code"><button type="submit" data-apply-coupon><?= $couponCode ? 'Update' : 'Apply' ?></button><button type="button" data-remove-coupon <?= $couponCode ? '' : 'hidden' ?>>Remove</button></div>
-    </form>
   <?php endif ?>
 </section>
 <?php if (! empty($recommendations)): ?>
@@ -106,7 +107,7 @@
     gstOutput.textContent = money(payload.gstAmount || 0);
     totalOutput.textContent = money(payload.total);
     couponRemove.hidden = !payload.couponCode;
-    couponApply.textContent = payload.couponCode ? 'Update' : 'Apply';
+    couponApply.textContent = payload.couponCode ? 'Update coupon' : 'Apply coupon';
   };
 
   const submitAjax = async (form, extra = {}) => {
