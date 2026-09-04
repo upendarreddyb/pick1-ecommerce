@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="<?= $storeFonts ?>" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="<?= $storeFonts ?>"></noscript>
   <?php if (! empty($heroPreload)): ?><link rel="preload" as="image" href="<?= esc($heroPreload) ?>" type="image/webp" fetchpriority="high"><?php endif ?>
-  <link rel="stylesheet" href="<?= base_url('assets/css/store.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('assets/css/store.css') ?>?v=<?= filemtime(FCPATH . 'assets/css/store.css') ?>">
   <style><?= file_get_contents(FCPATH . 'assets/css/store-layout-v2.css') ?></style>
   <?= $this->renderSection('head') ?>
 </head>
@@ -100,7 +100,7 @@
   </footer>
   <div class="toast" role="status"></div>
   <script>window.CSRF={name:'<?= csrf_token() ?>',hash:'<?= csrf_hash() ?>'};</script>
-  <script src="<?= base_url('assets/js/store.js') ?>"></script>
+  <script src="<?= base_url('assets/js/store.js') ?>?v=<?= filemtime(FCPATH . 'assets/js/store.js') ?>"></script>
   <?= $this->renderSection('scripts') ?>
 </body>
 </html>
