@@ -20,7 +20,7 @@ $orderSubtotal = max(0, (float) $row['total_amount'] - $shippingAmount + $discou
     <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
     <?php if ($discountAmount > 0): ?><div><dt>Coupon discount<?= ! empty($row['coupon_code']) ? ' (' . esc($row['coupon_code']) . ')' : '' ?></dt><dd>−₹<?= number_format($discountAmount, 2) ?></dd></div><?php endif ?>
     <div><dt>Shipping</dt><dd><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
-    <div><dt>GST (4.4%)</dt><dd>Included in product prices</dd></div>
+    <div><dt>GST</dt><dd>Included in product prices</dd></div>
     <div><dt>Total</dt><dd><strong>₹<?= number_format((float) $row['total_amount'], 2) ?></strong></dd></div>
   </dl>
 </div>

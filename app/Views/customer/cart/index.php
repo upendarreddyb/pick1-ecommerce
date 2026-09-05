@@ -58,7 +58,7 @@
       </form>
       <span data-cart-discount-label <?= $discount <= 0 ? 'hidden' : '' ?>>Coupon discount<?= $couponCode ? ' (' . esc($couponCode) . ')' : '' ?></span>
       <strong data-cart-discount <?= $discount <= 0 ? 'hidden' : '' ?>>−₹<?= number_format($discount, 2) ?></strong>
-      <span>GST (4.4%) <small>included</small></span>
+      <span>GST included</span>
       <strong data-cart-gst>₹<?= number_format($gstAmount, 2) ?></strong>
       <span class="cart-grand-label">Total</span>
       <strong class="cart-grand-value" data-cart-total>₹<?= number_format($total, 2) ?></strong>

@@ -15,7 +15,7 @@ $orderSubtotal = max(0, (float) $order['total_amount'] - $shippingAmount + $disc
       <div><dt>Subtotal</dt><dd>₹<?= number_format($orderSubtotal, 2) ?></dd></div>
       <?php if ($discountAmount > 0): ?><div><dt>Coupon discount<?= ! empty($order['coupon_code']) ? ' (' . esc($order['coupon_code']) . ')' : '' ?></dt><dd>−₹<?= number_format($discountAmount, 2) ?></dd></div><?php endif ?>
       <div><dt>Shipping</dt><dd class="<?= $shippingAmount > 0 ? '' : 'free' ?>"><?= $shippingAmount > 0 ? '₹' . number_format($shippingAmount, 2) : 'Free' ?></dd></div>
-      <div><dt>GST (4.4%)</dt><dd>Included</dd></div>
+      <div><dt>GST</dt><dd>Included</dd></div>
     </dl>
     <div class="payment-due"><span>Total payable</span><strong>₹<?= number_format($order['total_amount'],2) ?></strong></div>
     <button id="pay" type="button" class="gateway-button razorpay-button"><span>R</span> Pay securely with Razorpay</button>
