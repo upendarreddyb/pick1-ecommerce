@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Pick1 premium flavored toothpicks made from natural birchwood.">
   <title><?= isset($title) && $title !== 'Pick1' ? esc($title) . ' · Pick1' : 'Pick1' ?></title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPFCGFGN1B"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NPFCGFGN1B');
+  </script>
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
