@@ -118,6 +118,23 @@ html { scroll-padding-top: 92px; }
 }
 .detail-copy > * { max-width: 100%; }
 .detail-copy .product-description { width: 100%; max-width: 620px; font-size: 18px; }
+.default-product-note {
+  width: 100%;
+  max-width: 620px;
+  margin: 18px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(23, 32, 25, .14);
+  border-radius: 12px;
+  background: #f5f1e8;
+}
+.default-product-note strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.default-product-note p { margin: 0; line-height: 1.5; }
 .detail-copy .product-cart-controls { width: 100%; max-width: 430px; }
 .product-reviews-section { padding: 36px 32px 50px; }
 .reviews-heading,
