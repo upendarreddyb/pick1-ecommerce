@@ -48,6 +48,10 @@ $showReviewSection = ! empty($reviews) || $canReview;
     <?php if (mb_strlen((string) $product['description']) > 110): ?>
       <button class="description-toggle" type="button" aria-expanded="false" aria-controls="product-description">Show more</button>
     <?php endif ?>
+    <aside class="default-product-note" aria-label="Product note">
+      <strong>Product note</strong>
+      <p>Very useful product.</p>
+    </aside>
     <div class="product-rating" aria-label="<?= $ratingCount ? 'Rated ' . number_format($ratingAverage, 1) . ' out of 5 from ' . $ratingCount . ' reviews' : 'No reviews yet' ?>">
       <span aria-hidden="true">★</span><strong><?= $ratingCount ? number_format($ratingAverage, 1) : '0.0' ?></strong><i></i>
       <?php if ($showReviewSection): ?>
