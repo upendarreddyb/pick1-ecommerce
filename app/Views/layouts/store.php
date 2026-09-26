@@ -13,7 +13,7 @@
     gtag('js', new Date());
     gtag('config', 'G-NPFCGFGN1B');
   </script>
-  <link rel="icon" href="data:,">
+  <link rel="icon" type="image/webp" href="<?= base_url('assets/images/pick1-logo-2026.webp') ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <?php $storeFonts = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap'; ?>
@@ -31,7 +31,7 @@
   <?php endif ?>
   <header class="site-header pick-nav">
     <a class="header-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home">
-      <img src="<?= base_url('assets/images/pick1-logo.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="360" height="186" decoding="async">
+      <img src="<?= base_url('assets/images/pick1-logo-2026.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="900" height="451" decoding="async">
     </a>
     <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="store-navigation"><span></span><span></span><span></span></button>
     <nav id="store-navigation" aria-label="Main navigation">
@@ -74,7 +74,7 @@
 
     <section class="footer-directory">
       <div>
-        <a class="footer-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home"><img src="<?= base_url('assets/images/pick1-logo.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="360" height="186" loading="lazy" decoding="async"></a>
+        <a class="footer-logo" href="<?= base_url('/') ?>" aria-label="Pick1 home"><img src="<?= base_url('assets/images/pick1-logo-2026.webp') ?>" alt="Pick1 Premium Flavoured Toothpicks" width="900" height="451" loading="lazy" decoding="async"></a>
         <h3>About</h3>
         <a href="<?= base_url('/#why-pick1-title') ?>">Why Pick1?</a>
         <a href="<?= base_url('contact') ?>">Contact Us</a>

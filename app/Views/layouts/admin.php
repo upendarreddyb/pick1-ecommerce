@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title><?= esc($title) ?> · Pick1 Admin</title>
-  <link rel="icon" href="data:,">
+  <link rel="icon" type="image/webp" href="<?= base_url('assets/images/pick1-logo-2026.webp') ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
   <div class="admin-overlay"></div>
   <aside class="admin-nav">
     <div>
-      <a class="admin-brand" href="<?= base_url('admin') ?>">Pick<span>1</span><small>ADMIN</small></a>
+      <a class="admin-brand" href="<?= base_url('admin') ?>"><img src="<?= base_url('assets/images/pick1-logo-2026.webp') ?>" alt="Pick1" width="900" height="451"><small>ADMIN</small></a>
       <p class="nav-label">Workspace</p>
       <nav>
         <a class="<?= $section==='dashboard'?'active':'' ?>" href="<?= base_url('admin') ?>"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg><span>Overview</span></a>
