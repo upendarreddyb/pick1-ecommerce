@@ -37,3 +37,12 @@
 .admin-review>p{line-height:1.65}.admin-review>small{color:#3977b8}.admin-review footer{display:flex;gap:9px;margin-top:20px}.admin-review footer form{margin:0}
 .review-reject{background:#777}.review-delete{min-height:42px;padding:0 15px;border:1px solid #d8a9a4;border-radius:6px;background:#fff;color:var(--red)}
 .review-status-pending{background:#fff2ce;color:#7b5a00}.review-status-rejected{background:#fae9e7;color:var(--red)}
+
+/* Pick1 image branding */
+.admin-brand{align-items:center;gap:8px;margin:0 4px 30px;padding:7px 9px;border-radius:9px;background:#fff;color:var(--ink)}
+.admin-brand img{display:block;width:126px;height:auto}
+.admin-brand small{margin-left:0;color:#667367;font-weight:700;letter-spacing:.18em}
+.login-brand{top:36px;width:178px;padding:7px 10px;border-radius:10px;background:#fff}
+.login-brand img,.login-card-logo img{display:block;width:100%;height:auto}
+.login-card-logo{display:none}
+@media(max-width:850px){.login-card-logo{display:block;width:145px;margin:0 auto 25px}}

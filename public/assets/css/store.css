@@ -489,3 +489,6 @@ html {
 
 /* Prevent repeated email sign-in submissions */
 .auth-card form.is-submitting .button{gap:9px;opacity:.72;cursor:not-allowed;pointer-events:none}.auth-card form.is-submitting .button::before{content:"";width:14px;height:14px;border:2px solid #ffffff66;border-top-color:#fff;border-radius:50%;animation:login-submit-spin .7s linear infinite}@keyframes login-submit-spin{to{transform:rotate(360deg)}}
+
+/* Brand fallback shown when a product image is unavailable. */
+.pick-placeholder img{display:block;width:58%;height:auto;object-fit:contain}
