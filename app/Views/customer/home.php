@@ -3,6 +3,58 @@
 <?= $this->section('head') ?>
 <style><?= file_get_contents(FCPATH . 'assets/css/home-carousel.css') ?></style>
 <style><?= file_get_contents(FCPATH . 'assets/css/home-spacing.css') ?></style>
+<?php
+$homeSchema = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        [
+            '@type' => 'Organization',
+            '@id' => base_url('/#organization'),
+            'name' => 'PICK1 Toothpicks',
+            'url' => base_url('/'),
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => base_url('assets/images/pick1-logo-2026.webp'),
+                'width' => 900,
+                'height' => 451,
+            ],
+            'sameAs' => [
+                'https://www.facebook.com/pick1toothpicks',
+                'https://www.linkedin.com/company/pick1-tooth-picks/',
+                'https://www.instagram.com/pick1.in/',
+                'https://www.threads.com/@pick1toothpicks',
+            ],
+        ],
+        [
+            '@type' => 'WebSite',
+            '@id' => base_url('/#website'),
+            'url' => base_url('/'),
+            'name' => 'PICK1 Toothpicks',
+            'publisher' => ['@id' => base_url('/#organization')],
+            'inLanguage' => 'en-IN',
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => [
+                    '@type' => 'EntryPoint',
+                    'urlTemplate' => base_url('products') . '?q={search_term_string}',
+                ],
+                'query-input' => 'required name=search_term_string',
+            ],
+        ],
+        [
+            '@type' => 'WebPage',
+            '@id' => base_url('/#webpage'),
+            'url' => base_url('/'),
+            'name' => 'PICK1 Toothpicks – Flavoured Toothpicks for Freshness',
+            'isPartOf' => ['@id' => base_url('/#website')],
+            'about' => ['@id' => base_url('/#organization')],
+            'description' => 'Discover PICK1 flavoured toothpicks crafted from premium birchwood for a clean, refreshing experience. Explore mint, coffee, clove, and pan masala flavours.',
+            'inLanguage' => 'en-IN',
+        ],
+    ],
+];
+?>
+<script type="application/ld+json"><?= json_encode($homeSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE) ?></script>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
