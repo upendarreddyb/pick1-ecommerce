@@ -3,6 +3,10 @@
 <link rel="stylesheet" href="<?= base_url('assets/css/cart-recommendations.css?v=1') ?>">
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
+<?php
+$freeShippingText = rtrim(rtrim(number_format((float) $freeShippingMinimum, 2, '.', ''), '0'), '.');
+$gstRateText = rtrim(rtrim(number_format((float) $gstRate, 2, '.', ''), '0'), '.');
+?>
 <section class="narrow">
   <p class="eyebrow">Your bag</p>
   <h1>Selected with care.</h1>
@@ -47,7 +51,7 @@
     <div class="cart-total">
       <span>Subtotal</span>
       <strong data-cart-subtotal>₹<?= number_format($subtotal, 2) ?></strong>
-      <span data-cart-shipping-label>Shipping<?= $shipping > 0 ? ' (free on ₹349+)' : '' ?></span>
+      <span data-cart-shipping-label>Shipping<?= $shipping > 0 && $freeShippingMinimum > 0 ? ' (free on ₹' . esc($freeShippingText) . '+)' : '' ?></span>
       <strong data-cart-shipping class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></strong>
       <form class="cart-coupon" method="post" action="<?= base_url('cart/coupon') ?>">
         <?= csrf_field() ?>
@@ -58,7 +62,7 @@
       </form>
       <span data-cart-discount-label <?= $discount <= 0 ? 'hidden' : '' ?>>Coupon discount<?= $couponCode ? ' (' . esc($couponCode) . ')' : '' ?></span>
       <strong data-cart-discount <?= $discount <= 0 ? 'hidden' : '' ?>>−₹<?= number_format($discount, 2) ?></strong>
-      <span>GST included</span>
+      <span data-cart-gst-label>GST (<?= esc($gstRateText) ?>%) included</span>
       <strong data-cart-gst>₹<?= number_format($gstAmount, 2) ?></strong>
       <span class="cart-grand-label">Total</span>
       <strong class="cart-grand-value" data-cart-total>₹<?= number_format($total, 2) ?></strong>
@@ -81,6 +85,7 @@
   const shippingOutput = document.querySelector('[data-cart-shipping]');
   const discountLabel = document.querySelector('[data-cart-discount-label]');
   const discountOutput = document.querySelector('[data-cart-discount]');
+  const gstLabel = document.querySelector('[data-cart-gst-label]');
   const gstOutput = document.querySelector('[data-cart-gst]');
   const totalOutput = document.querySelector('[data-cart-total]');
   const couponForm = document.querySelector('.cart-coupon');
@@ -93,10 +98,12 @@
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(value);
+  const plainNumber = value => new Intl.NumberFormat('en-IN', {maximumFractionDigits: 2}).format(Number(value) || 0);
 
   const updateTotals = payload => {
     subtotalOutput.textContent = money(payload.subtotal);
-    shippingLabel.textContent = payload.shipping ? 'Shipping (free on ₹349+)' : 'Shipping';
+    const freeShippingMinimum = Number(payload.freeShippingMinimum) || 0;
+    shippingLabel.textContent = payload.shipping && freeShippingMinimum > 0 ? `Shipping (free on ₹${plainNumber(freeShippingMinimum)}+)` : 'Shipping';
     shippingOutput.textContent = payload.shipping ? money(payload.shipping) : 'Free';
     shippingOutput.classList.toggle('free', payload.shipping === 0);
     const hasDiscount = Number(payload.discount) > 0;
@@ -104,6 +111,7 @@
     discountOutput.hidden = !hasDiscount;
     discountLabel.textContent = 'Coupon discount' + (payload.couponCode ? ` (${payload.couponCode})` : '');
     discountOutput.textContent = '−' + money(payload.discount || 0);
+    gstLabel.textContent = `GST (${plainNumber(payload.gstRate)}%) included`;
     gstOutput.textContent = money(payload.gstAmount || 0);
     totalOutput.textContent = money(payload.total);
     couponRemove.hidden = !payload.couponCode;
