@@ -49,6 +49,10 @@ class Home extends BaseController
 
         $body = view('customer/home', [
             'title'          => 'Pick1',
+            'metaTitle'      => 'PICK1 Toothpicks – Flavoured Toothpicks for Freshness',
+            'metaDescription'=> 'Discover PICK1 flavoured toothpicks crafted from premium birchwood for a clean, refreshing experience. Explore mint, coffee, clove, and pan masala flavours.',
+            'canonicalUrl'   => base_url('/'),
+            'metaImage'      => base_url('assets/images/pick1-logo-2026.webp'),
             'products'       => $homeContent['products'],
             'cartQuantities' => (new Cart())->quantities(),
             'slides'         => $homeContent['slides'],
