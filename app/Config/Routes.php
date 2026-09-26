@@ -49,6 +49,8 @@ $routes->group('admin', ['filter' => 'adminAuth'], static function ($routes) {
     $routes->post('coupons', 'Admin\\Coupons::create');
     $routes->post('coupons/(:num)/status', 'Admin\\Coupons::status/$1');
     $routes->post('coupons/(:num)/delete', 'Admin\\Coupons::delete/$1');
+    $routes->get('pricing', 'Admin\\Pricing::index');
+    $routes->post('pricing', 'Admin\\Pricing::save');
     $routes->resource('sliders', ['controller' => 'Admin\\Sliders']);
     $routes->resource('video-stories', ['controller' => 'Admin\\VideoStories']);
     $routes->get('orders', 'Admin\\Orders::index');
