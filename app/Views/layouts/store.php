@@ -1,10 +1,36 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <?php
+  $seoTitle = $metaTitle ?? (isset($title) && $title !== 'Pick1' ? $title . ' · Pick1' : 'Pick1');
+  $seoDescription = $metaDescription ?? 'Discover Pick1 premium flavoured toothpicks crafted from birchwood for a clean, refreshing experience.';
+  $seoCanonical = $canonicalUrl ?? current_url();
+  $seoImage = $metaImage ?? base_url('assets/images/pick1-logo-2026.webp');
+  $seoType = $ogType ?? 'website';
+  $seoPath = trim(uri_string(), '/');
+  $privateSeoPaths = ['cart', 'checkout', 'orders', 'login', 'verify-otp'];
+  $isPrivateSeoPath = in_array($seoPath, $privateSeoPaths, true)
+      || str_starts_with($seoPath, 'orders/')
+      || str_starts_with($seoPath, 'checkout/');
+  $seoRobots = $metaRobots ?? ($isPrivateSeoPath ? 'noindex,nofollow' : 'index,follow,max-image-preview:large');
+  ?>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Pick1 premium flavored toothpicks made from natural birchwood.">
-  <title><?= isset($title) && $title !== 'Pick1' ? esc($title) . ' · Pick1' : 'Pick1' ?></title>
+  <meta name="description" content="<?= esc($seoDescription) ?>">
+  <meta name="robots" content="<?= esc($seoRobots) ?>">
+  <link rel="canonical" href="<?= esc($seoCanonical) ?>">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:type" content="<?= esc($seoType) ?>">
+  <meta property="og:site_name" content="Pick1">
+  <meta property="og:title" content="<?= esc($seoTitle) ?>">
+  <meta property="og:description" content="<?= esc($seoDescription) ?>">
+  <meta property="og:url" content="<?= esc($seoCanonical) ?>">
+  <meta property="og:image" content="<?= esc($seoImage) ?>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= esc($seoTitle) ?>">
+  <meta name="twitter:description" content="<?= esc($seoDescription) ?>">
+  <meta name="twitter:image" content="<?= esc($seoImage) ?>">
+  <title><?= esc($seoTitle) ?></title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NPFCGFGN1B"></script>
   <script>
