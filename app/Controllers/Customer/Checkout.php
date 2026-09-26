@@ -96,6 +96,8 @@ class Checkout extends BaseController
             'key'     => env('RAZORPAY_KEY_ID'),
             'items'   => $items,
             'paymentMethod' => $this->request->getPost('payment_method'),
+            'gstRate' => $pricing['gstRate'],
+            'gstAmount' => $pricing['gstAmount'],
             'prefill' => [
                 'name'    => (string) $this->request->getPost('full_name'),
                 'email'   => (string) session('customer_email'),
