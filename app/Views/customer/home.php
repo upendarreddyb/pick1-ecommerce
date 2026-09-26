@@ -146,7 +146,7 @@ $optimizedSlideImages = [
 <section class="pick1-faq" aria-labelledby="pick1-faq-title">
   <header>
     <p class="pick-eyebrow">Everything you need to know</p>
-    <h2 id="pick1-faq-title">Flavored Toothpicks</h2>
+    <h2 id="pick1-faq-title">Organic Flavored Toothpicks</h2>
   </header>
   <div class="pick1-faq-list">
     <details open>
