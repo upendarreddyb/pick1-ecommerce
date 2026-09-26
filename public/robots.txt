@@ -1,4 +1,9 @@
 User-agent: *
-Disallow:
 Disallow: /cgi-bin/
+Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /login
+Disallow: /verify-otp
+Disallow: /orders
 Sitemap: https://pick1.in/sitemap.xml
