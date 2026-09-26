@@ -1,5 +1,6 @@
 <?= $this->extend('layouts/store') ?>
 <?= $this->section('content') ?>
+<?php $gstRateText = rtrim(rtrim(number_format((float) $gstRate, 2, '.', ''), '0'), '.'); ?>
 <section class="checkout-shell">
   <div class="checkout-form-panel">
     <p class="checkout-kicker">Secure checkout</p>
@@ -40,7 +41,7 @@
       <div><dt>Subtotal</dt><dd>₹<?= number_format($subtotal, 2) ?></dd></div>
       <?php if ($discount > 0): ?><div><dt>Coupon discount<?= $couponCode ? ' (' . esc($couponCode) . ')' : '' ?></dt><dd>−₹<?= number_format($discount, 2) ?></dd></div><?php endif ?>
       <div><dt>Shipping</dt><dd class="<?= $shipping > 0 ? '' : 'free' ?>"><?= $shipping > 0 ? '₹' . number_format($shipping, 2) : 'Free' ?></dd></div>
-      <div><dt>GST</dt><dd>Included</dd></div>
+      <div><dt>GST (<?= esc($gstRateText) ?>%) included</dt><dd>₹<?= number_format($gstAmount, 2) ?></dd></div>
       <div class="grand-total"><dt>Total</dt><dd><small>INR</small> ₹<?= number_format($total, 2) ?></dd></div>
     </dl>
   </aside>
