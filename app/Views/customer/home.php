@@ -137,7 +137,7 @@ $optimizedSlideImages = [
 
 <section class="numae-intro">
   <p class="numae-intro-kicker">Natural &amp; Modern</p>
-  <h2>Nature in Every Pick</h2>
+  <h2>Organic Nature in Every Pick</h2>
   <p>Crafted from premium birchwood and natural flavors for a clean, refreshing experience.</p>
 </section>
 
