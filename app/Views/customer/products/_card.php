@@ -17,7 +17,7 @@ foreach ($p['gallery'] ?? [] as $galleryImage) {
     <?php if ($cardImages): ?>
       <img class="card-main-image" src="<?= esc($cardImages[0]) ?>" alt="<?= esc($p['name']) ?>" width="1080" height="1080" loading="<?= esc($cardImageLoading) ?>" decoding="async">
     <?php else: ?>
-      <span class="placeholder pick-placeholder"><i></i><b>Pick<span>1</span></b></span>
+      <span class="placeholder pick-placeholder"><img src="<?= base_url('assets/images/pick1-logo-2026.webp') ?>" alt="Pick1" width="900" height="451" loading="lazy" decoding="async"></span>
     <?php endif ?>
   </a>
 
