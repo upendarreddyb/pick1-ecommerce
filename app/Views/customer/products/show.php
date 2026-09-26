@@ -1,8 +1,4 @@
 <?= $this->extend('layouts/store') ?>
-<?= $this->section('head') ?>
-<link rel="stylesheet" href="<?= base_url('assets/css/product-recommendations.css?v=1') ?>">
-<?= $this->endSection() ?>
-<?= $this->section('content') ?>
 <?php
 $productImages = [];
 if (! empty($product['image']) && is_file(FCPATH . 'uploads/products/' . basename($product['image']))) {
@@ -17,6 +13,85 @@ foreach ($gallery ?? [] as $index => $galleryImage) {
         'alt' => $product['name'] . ' image ' . ($index + 2),
     ];
 }
+
+$productUrl = base_url('products/' . $product['slug']);
+$offerPrice = number_format((float) ($product['sale_price'] ?: $product['price']), 2, '.', '');
+$productSchema = [
+    '@type' => 'Product',
+    '@id' => $productUrl . '#product',
+    'name' => $schemaName,
+    'url' => $productUrl,
+    'description' => $metaDescription,
+    'sku' => 'PICK1-' . $product['id'],
+    'brand' => ['@type' => 'Brand', 'name' => 'PICK1'],
+    'category' => 'Flavoured Toothpicks',
+    'offers' => [
+        '@type' => 'Offer',
+        '@id' => $productUrl . '#offer',
+        'url' => $productUrl,
+        'priceCurrency' => 'INR',
+        'price' => $offerPrice,
+        'availability' => (int) $product['stock'] > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        'itemCondition' => 'https://schema.org/NewCondition',
+        'seller' => [
+            '@type' => 'Organization',
+            '@id' => base_url('/#organization'),
+            'name' => 'PICK1 Toothpicks',
+            'url' => base_url('/'),
+        ],
+    ],
+];
+$productSchema['image'] = $productImages !== [] ? array_column($productImages, 'url') : [$metaImage];
+if ((int) $ratingCount > 0) {
+    $productSchema['aggregateRating'] = [
+        '@type' => 'AggregateRating',
+        'ratingValue' => number_format((float) $ratingAverage, 1, '.', ''),
+        'reviewCount' => (int) $ratingCount,
+        'bestRating' => 5,
+        'worstRating' => 1,
+    ];
+    $productSchema['review'] = array_map(static function (array $review): array {
+        return [
+            '@type' => 'Review',
+            'author' => [
+                '@type' => 'Person',
+                'name' => trim((string) ($review['customer_name'] ?? '')) ?: 'Verified customer',
+            ],
+            'datePublished' => date('Y-m-d', strtotime((string) $review['created_at'])),
+            'reviewBody' => trim((string) $review['review']),
+            'reviewRating' => [
+                '@type' => 'Rating',
+                'ratingValue' => (int) $review['rating'],
+                'bestRating' => 5,
+                'worstRating' => 1,
+            ],
+        ];
+    }, $reviews);
+}
+$productPageSchema = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+        $productSchema,
+        [
+            '@type' => 'BreadcrumbList',
+            '@id' => $productUrl . '#breadcrumb',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => base_url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Products', 'item' => base_url('products')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $product['name'], 'item' => $productUrl],
+            ],
+        ],
+    ],
+];
+?>
+<?= $this->section('head') ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/product-recommendations.css?v=1') ?>">
+<meta property="product:price:amount" content="<?= esc($offerPrice) ?>">
+<meta property="product:price:currency" content="INR">
+<script type="application/ld+json"><?= json_encode($productPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE) ?></script>
+<?= $this->endSection() ?>
+<?= $this->section('content') ?>
+<?php
 $showReviewSection = ! empty($reviews) || $canReview;
 ?>
 <section class="product-detail">
