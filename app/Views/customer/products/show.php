@@ -92,7 +92,7 @@ $productPageSchema = [
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <?php
-$showReviewSection = ! empty($reviews) || $canReview;
+$showReviewSection = ! empty($reviews) || (bool) session('customer_id');
 ?>
 <section class="product-detail">
   <div class="product-gallery">
