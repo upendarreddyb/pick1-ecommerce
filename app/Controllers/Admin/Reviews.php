@@ -18,7 +18,7 @@ class Reviews extends BaseController
         return view('admin/reviews/index', [
             'title' => 'Reviews',
             'rows' => $reviews
-                ->select('product_reviews.*, products.name AS product_name, users.email AS customer_email')
+                ->select('product_reviews.*, products.name AS product_name, products.slug AS product_slug, users.name AS customer_name, users.email AS customer_email, users.phone AS customer_phone')
                 ->join('products', 'products.id = product_reviews.product_id')
                 ->join('users', 'users.id = product_reviews.user_id')
                 ->orderBy('product_reviews.id', 'DESC')
